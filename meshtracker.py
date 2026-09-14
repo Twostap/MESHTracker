@@ -1,0 +1,105 @@
+from flask import Flask, request, render_template
+import pandas as pd
+import difflib
+from pathlib import Path
+import numpy as np
+
+app = Flask(__name__)  
+
+@app.route('/', methods =["GET", "POST"])
+def indexingchanges():
+    if request.method == "POST":
+        print("posted")
+        MESHFilter = request.form.get("MESHFilter")
+        print(MESHFilter)
+        PMIDFilter = request.form.get("PMIDFilter")
+        print(PMIDFilter)
+        IndexingFilter = request.form.get("IndexingFilter")
+        print(IndexingFilter)
+        changeddf = pd.read_csv('meshchanges.csv', dtype=str, usecols=['PMID', 'IndexingMethod_x','MESH_x', 'IndexingMethod_y','DateRevised','MESH_y'])
+        if MESHFilter is not None and MESHFilter !="":
+            filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
+            print("MESH query")
+        else:
+            filtereddf = changeddf
+            print("No MESH query")
+        if PMIDFilter is not None and PMIDFilter != "":
+            filtereddf = filtereddf.query("PMID == @PMIDFilter")
+            print("PMID query")
+        else:
+            filtereddf = filtereddf
+            print("No PMID query")
+        if IndexingFilter is not None and IndexingFilter !="":
+            filtereddf = filtereddf.query("IndexingMethod_y.str.contains(@IndexingFilter, case=False)")
+            print("indexingquery")
+        else:
+            filtereddf = filtereddf
+            print("no indexing query")
+        changeddict = filtereddf[['PMID', 'IndexingMethod_x', 'MESH_x', 'IndexingMethod_y', 'DateRevised', 'MESH_y']].to_dict(orient='records')
+        HTMLTables = []
+        
+        
+        for obj in changeddict:
+            PMIDrow = obj["PMID"]
+            PMIDrow = str(PMIDrow)
+            OGMESH = obj["MESH_x"]
+            OGMESH = OGMESH.replace("Physicians'","Physicians")
+            OGMESH = OGMESH.replace('"','$')
+            OGMESH = OGMESH.replace("$","'")
+            OGMESH = OGMESH.replace('",',"'")
+            OGMESH = OGMESH.replace(", '",";")
+            OGMESH = OGMESH.replace("'","")
+            OGMESH = OGMESH.replace("[","")
+            OGMESH = OGMESH.replace("]","")
+            GMESH = OGMESH.replace('"',"")
+            OGMESH = OGMESH.split(";")
+            NewMESH = obj["MESH_y"]
+            NewMESH = NewMESH.replace("Physicians'","Physicians")
+            NewMESH = NewMESH.replace('"','$')
+            NewMESH = NewMESH.replace('$',"'")
+            NewMESH = NewMESH.replace(", '",";")
+            NewMESH = NewMESH.replace("'","")
+            NewMESH = NewMESH.replace('"[',"")
+            NewMESH = NewMESH.replace(']"',"")
+            NewMESH = NewMESH.replace("[","")
+            NewMESH = NewMESH.replace("]","")
+            NewMESH = NewMESH.replace('"',"")
+            NewMESH = NewMESH.split(";")
+            OGIndexing = obj["IndexingMethod_x"]
+            NewIndexing = obj["IndexingMethod_y"]
+            DateRevised = obj["DateRevised"]
+            #might need to split on ', and possibly reformat
+            PMURI = "https://pubmed.ncbi.nlm.nih.gov/" + PMIDrow
+            #Might want to play around with sorting and unsorting when you have the actual data. Looking at reordering of headings might also be interesting
+            #NLM suggests Mesh are ordered in order of importance https://www.nlm.nih.gov/tsd/cataloging/trainingcourses/mesh/mod3_170.html, however, they do seem arranged alphabetically in Pubmed. Need to check XML files
+            OGMESH = sorted(OGMESH)
+            NewMESH = sorted(NewMESH)
+            if OGMESH != NewMESH:
+                OGIndexing = str(OGIndexing)
+                NewIndexing = str(NewIndexing)
+                DateRevised = str(DateRevised)
+                OGDesc = "Original (" + OGIndexing + ")"
+                NewDesc = "Revised (" + NewIndexing + ") " + DateRevised + ""
+                htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
+                diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
+                added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
+                removed = str(sum(1 for line in diffnumbers if line.startswith('- ')))
+                unchanged = str(sum(1 for line in diffnumbers if line.startswith('  ')))
+                htmldiff = "<div style='display:inline' id='MESHTable'><h3><a href='" + PMURI + "'>PMID " + PMIDrow + "</a></h3><div style='display:inline-flex'><div style='display:inline'>" + htmldiff + "</div>" + "<div style='display:inline; font-family:courier; margin-left:15px;'><table id='diffcalculations'><tr><td id='addedlabel'>Added:</td><td id='addedvalue'>" + added + "</td><tr><td id='removedlabel'>Removed:</td><td id='removedvalue'>" + removed + "</td></tr><tr><td id='unchangedlabel'>Unchanged:</td><td id='unchangedvalue'>" + unchanged + "</td></tr></table></div></div></div>"
+                HTMLTables.append(htmldiff)
+
+    #html_diff = difflib.HtmlDiff().make_file(OGMESH, NewMESH, fromdesc="Original", todesc="Modified")
+    #Path('diff.html').write_text(html_diff)
+
+        DiffHTML = "".join(HTMLTables) 
+        
+    else:
+        MESHFilter = ""
+        DiffHTML = ""
+        PMIDFilter = ""
+        IndexingFilter = ""
+        
+    return render_template("form.html", MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter)
+
+if __name__=='__main__':
+   app.run()
