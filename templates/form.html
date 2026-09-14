@@ -1,0 +1,134 @@
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style type='text/css'>.diff {font-family:Courier; border: solid 1px black} .diff_header {background-color:#e0e0e0} td.diff_header {text-align:right; width:10px;} .diff_next {display: none;} .diff_add {background-color:#aaffaa} .diff_chg {background-color:#ffff77} .diff_sub {background-color:#ffaaaa}</style>
+</head>
+<body>
+<div style="display:flex; flex-direction:column">
+<div id="header"><h2>MESH Indexing Tracker</h2>
+<p>Records from 2026 PubMed baseline that underwent changes to indexing method and at least one MESH in 2026</p>
+<p>Records can be filtered by using the search button below. Leave blank and click search for all records.</div>
+<div id="inputform">
+<form action="{{ url_for("indexingchanges")}}" method="post" enctype="multipart/form-data">
+<label for="PMIDFilter">PMID</label> <input min="0" value="{{PMIDFilter}}" type="text" id="PMIDFilter" name="PMIDFilter" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="type a PMID">
+<br><label for="MESHFilter">MESH</label> <input min="0" type="text" value="{{MESHFilter}}" id="MESHFilter" name="MESHFilter" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="type a MESH">
+<br><label for="IndexingFilter">Revised Indexing Method</label> <input min="0" type="text" value="{{IndexingFilter}}" id="IndexingFilter" name="IndexingFilter" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="enter indexing type">
+<br><br><div><button class="FilterButton" type="submit">Search</button></div>
+</form>
+</div>
+<div id="legendsection" style="display:inline-flex; flex-direction: rows"><div><h3>Legend</h3><table border='' style='width:150px' summary='Colors'><tr><th>Colors</th></tr><tr><td class='diff_add' style='text-align:center'>&nbsp;Added&nbsp;</td></tr><tr><td class='diff_chg' style='text-align:center'>Changed</td></tr><tr><td class='diff_sub' style='text-align:center'>Deleted</td></tr></table></div>
+<div style="margin-left:30px;"><h3>Record Change Totals</h3>
+<span style="font-family:courier;">Total of MESH changes in the records identified by the query</span>
+<table id='difftotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='addedtotal'></td></tr><tr><td>Total deleted: </td><td id='deletedtotal'></td></tr><tr><td>Total unchanged: </td><td id='changedtotal'></td></tr></table></div>
+<div style="margin-left:30px;"><h3>MESH Change Totals</h3><span style="font-family:courier;">Total changes to the specific MESH searched in records identified by the query</span><table id='diffmeshtotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='meshaddedtotal'></td></tr><tr><td>Total deleted: </td><td id='meshdeletedtotal'></td></tr><tr><td>Total unchanged: </td><td id='meshchangedtotal'></td></tr></table></div></div>
+<div id="difftables">{{DiffHTML | safe }}</div>
+<div class="footer">
+<div class="copyright">
+<p class="copyright" style="font-size:1em; font-family: Calibri;">© Copyright 2026 Tyler Ostapyk</p>
+</div>
+</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+$.expr[":"].contains = $.expr.createPseudo(function(arg) {
+    return function( elem ) {
+        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+    };
+});
+
+$(document).ready(function() {
+var removedtotal = 0;
+var addedtotal = 0;
+var unchangedtotal = 0;
+	$('[id="removedvalue"]:visible').each(function() {
+		var removedvalue = parseFloat($(this).text());
+			if (!isNaN(removedvalue)) {
+			removedtotal += removedvalue;
+			}
+		});
+	$('[id="addedvalue"]:visible').each(function() {
+        var addedvalue = parseFloat($(this).text());
+            if (!isNaN(addedvalue)) {
+                addedtotal += addedvalue;
+                }
+            });
+    $('[id="unchangedvalue"]:visible').each(function() {
+        var unchangedvalue = parseFloat($(this).text());
+        if (!isNaN(unchangedvalue)) {
+            unchangedtotal += unchangedvalue;
+            }
+        });
+    $('#deletedtotal').text(removedtotal);
+    $('#addedtotal').text(addedtotal);
+    $('#changedtotal').text(unchangedtotal);
+    var HTMLinput = $('#MESHFilter').val();
+	console.log(HTMLinput)
+    var removedtotal = 0;
+    var addedtotal = 0;
+    var unchangedtotal = 0;
+    $('[id="removedvalue"]:visible').each(function() {
+        var removedvalue = parseFloat($(this).text());
+         if (!isNaN(removedvalue)) {
+            removedtotal += removedvalue;
+            }
+        });
+    $('[id="addedvalue"]:visible').each(function() {
+        var addedvalue = parseFloat($(this).text());
+            if (!isNaN(addedvalue)) {
+            addedtotal += addedvalue;
+            }
+        });
+    $('[id="unchangedvalue"]:visible').each(function() {
+        var unchangedvalue = parseFloat($(this).text());
+        if (!isNaN(unchangedvalue)) {
+            unchangedtotal += unchangedvalue;
+            }
+        });
+    var removedmeshtotal = "N/A";
+    var addedmeshtotal = "N/A";
+    var unchangedmeshtotal = "N/A";
+	if (HTMLinput !== "") {
+		HTMLinput = HTMLinput.toLowerCase()
+		console.log(HTMLinput)
+		var removedmeshtotal = 0;
+		var addedmeshtotal = 0;
+		var unchangedmeshtotal = 0;
+		$('[class="diff_sub"]:visible').each(function() {
+			var removedmeshcontent = $(this).text()
+			var removedmeshcontent = removedmeshcontent.toLowerCase()
+			var removedmeshcontent = removedmeshcontent.replaceAll('\u00A0', ' ');
+			if(removedmeshcontent.trim().includes(HTMLinput)) {
+				removedmeshtotal += 1;
+			};
+		});
+		$('td:nth-child(6):visible').each(function() {
+			var unchangedmeshcontent = $(this).text()
+			var unchangedmeshcontent = unchangedmeshcontent.toLowerCase()
+			var unchangedmeshcontent = unchangedmeshcontent.replaceAll('\u00A0', ' ');
+			if(unchangedmeshcontent.trim().includes(HTMLinput)) {
+				unchangedmeshtotal += 1;
+				console.log(unchangedmeshcontent)
+				console.log(HTMLinput)
+				console.log("unchangedmatch")
+				console.log(unchangedmeshtotal)
+			};
+		});
+		$('[class="diff_add"]:visible').each(function() {
+			var addedmeshcontent = $(this).text()
+			var addedmeshcontent = addedmeshcontent.toLowerCase()
+			var addedmeshcontent = addedmeshcontent.replaceAll('\u00A0', ' ');
+			if(addedmeshcontent.trim().includes(HTMLinput)) {
+				addedmeshtotal += 1;
+				};
+			});
+		unchangedmeshtotal = unchangedmeshtotal - addedmeshtotal;
+	};
+	$('#meshdeletedtotal').text(removedmeshtotal);
+	$('#meshchangedtotal').text(unchangedmeshtotal);
+	$('#meshaddedtotal').text(addedmeshtotal);
+	$('#deletedtotal').text(removedtotal);
+	$('#addedtotal').text(addedtotal);
+	$('#changedtotal').text(unchangedtotal);
+});
+</script>
+</body>
+</html>
