@@ -88,9 +88,6 @@ def indexingchanges():
                 htmldiff = "<div style='display:inline' id='MESHTable'><h3><a href='" + PMURI + "'>PMID " + PMIDrow + "</a></h3><div style='display:inline-flex'><div style='display:inline'>" + htmldiff + "</div>" + "<div style='display:inline; font-family:courier; margin-left:15px;'><table id='diffcalculations'><tr><td id='addedlabel'>Added:</td><td id='addedvalue'>" + added + "</td><tr><td id='removedlabel'>Removed:</td><td id='removedvalue'>" + removed + "</td></tr><tr><td id='unchangedlabel'>Unchanged:</td><td id='unchangedvalue'>" + unchanged + "</td></tr></table></div></div></div>"
                 HTMLTables.append(htmldiff)
 
-    #html_diff = difflib.HtmlDiff().make_file(OGMESH, NewMESH, fromdesc="Original", todesc="Modified")
-    #Path('diff.html').write_text(html_diff)
-
         DiffHTML = "".join(HTMLTables) 
         
     else:
