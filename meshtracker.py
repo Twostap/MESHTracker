@@ -16,9 +16,7 @@ def indexingchanges():
         print(PMIDFilter)
         IndexingFilter = request.form.get("IndexingFilter")
         print(IndexingFilter)
-        meshchangeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
-        updatedchangeddf = pd.read_csv('meshupdatedchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
-        changeddf = pd.concat([meshchangeddf, updatedchangeddf], ignore_index=True)
+        changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         changeddf = changeddf.drop_duplicates(subset=['PMID', 'IndexingMethod_x', 'MESH_x', 'IndexingMethod_y', 'MESH_y'], keep='first')
         if MESHFilter is not None and MESHFilter !="":
             filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
