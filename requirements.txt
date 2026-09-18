@@ -1,5 +1,6 @@
 gunicorn==23.0.0
 Flask==3.0.3
-pandas==2.3.2
+pandas==3.0.6
 requests==2.32.3
 numpy==2.3.3
+tables==3.11.1
