@@ -16,7 +16,10 @@ def indexingchanges():
         print(PMIDFilter)
         IndexingFilter = request.form.get("IndexingFilter")
         print(IndexingFilter)
-        changeddf = pd.read_csv('meshchanges.csv', dtype=str, usecols=['PMID', 'IndexingMethod_x','MESH_x', 'IndexingMethod_y','DateRevised','MESH_y'])
+        meshchangeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
+        updatedchangeddf = pd.read_csv('meshupdatedchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
+        changeddf = pd.concat([meshchangeddf, updatedchangeddf], ignore_index=True)
+        changeddf = changeddf.drop_duplicates(subset=['PMID', 'IndexingMethod_x', 'MESH_x', 'IndexingMethod_y', 'MESH_y'], keep='first')
         if MESHFilter is not None and MESHFilter !="":
             filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
             print("MESH query")
@@ -35,7 +38,7 @@ def indexingchanges():
         else:
             filtereddf = filtereddf
             print("no indexing query")
-        changeddict = filtereddf[['PMID', 'IndexingMethod_x', 'MESH_x', 'IndexingMethod_y', 'DateRevised', 'MESH_y']].to_dict(orient='records')
+        changeddict = filtereddf[['PMID', 'IndexingMethod_x', 'DateRevised_x', 'MESH_x', 'IndexingMethod_y', 'DateRevised_y', 'MESH_y']].to_dict(orient='records')
         HTMLTables = []
         
         
@@ -67,7 +70,8 @@ def indexingchanges():
             NewMESH = NewMESH.split(";")
             OGIndexing = obj["IndexingMethod_x"]
             NewIndexing = obj["IndexingMethod_y"]
-            DateRevised = obj["DateRevised"]
+            FirstDateRevised = obj["DateRevised_x"]
+            SecondDateRevised = obj["DateRevised_y"]
             #might need to split on ', and possibly reformat
             PMURI = "https://pubmed.ncbi.nlm.nih.gov/" + PMIDrow
             #Might want to play around with sorting and unsorting when you have the actual data. Looking at reordering of headings might also be interesting
@@ -77,9 +81,10 @@ def indexingchanges():
             if OGMESH != NewMESH:
                 OGIndexing = str(OGIndexing)
                 NewIndexing = str(NewIndexing)
-                DateRevised = str(DateRevised)
-                OGDesc = "Original (" + OGIndexing + ")"
-                NewDesc = "Revised (" + NewIndexing + ") " + DateRevised + ""
+                FirstDateRevised = str(FirstDateRevised)
+                SecondDateRevised = str(SecondDateRevised)
+                OGDesc = "Original (" + OGIndexing + ") " + FirstDateRevised + ""
+                NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
