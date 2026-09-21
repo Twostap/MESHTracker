@@ -86,9 +86,9 @@ def indexingchanges():
                 HTMLTables.append(htmldiff)
 
         DiffHTML = "".join(HTMLTables) 
-        addedtotal = addedtotal.astype(int)
-        removedtotal = removedtotal.astype(int)
-        unchangedtotal = unchangedtotal.astype(int)
+        addedtotal = list(map(int, addedtotal))
+        removedtotal = list(map(int, removedtotal))
+        unchangedtotal = list(map(int, unchangedtotal))
         addedtotal = sum(addedtotal)
         removedtotal = sum(removedtotal)
         unchangedtotal = sum(unchangedtotal)
