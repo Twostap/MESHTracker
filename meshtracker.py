@@ -9,32 +9,22 @@ app = Flask(__name__)
 @app.route('/', methods =["GET", "POST"])
 def indexingchanges():
     if request.method == "POST":
-        print("posted")
         MESHFilter = request.form.get("MESHFilter")
-        print(MESHFilter)
         PMIDFilter = request.form.get("PMIDFilter")
-        print(PMIDFilter)
         IndexingFilter = request.form.get("IndexingFilter")
-        print(IndexingFilter)
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
             filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
-            print("MESH query")
         else:
             filtereddf = changeddf
-            print("No MESH query")
         if PMIDFilter is not None and PMIDFilter != "":
             filtereddf = filtereddf.query("PMID == @PMIDFilter")
-            print("PMID query")
         else:
             filtereddf = filtereddf
-            print("No PMID query")
         if IndexingFilter is not None and IndexingFilter !="":
             filtereddf = filtereddf.query("IndexingMethod_y.str.contains(@IndexingFilter, case=False)")
-            print("indexingquery")
         else:
             filtereddf = filtereddf
-            print("no indexing query")
         changeddict = filtereddf[['PMID', 'IndexingMethod_x', 'DateRevised_x', 'MESH_x', 'IndexingMethod_y', 'DateRevised_y', 'MESH_y']].to_dict(orient='records')
         HTMLTables = []
         
