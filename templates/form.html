@@ -19,7 +19,7 @@
 <div id="legendsection" style="display:inline-flex; flex-direction: rows"><div><h3>Legend</h3><table border='' style='width:150px' summary='Colors'><tr><th>Colors</th></tr><tr><td class='diff_add' style='text-align:center'>&nbsp;Added&nbsp;</td></tr><tr><td class='diff_chg' style='text-align:center'>Changed</td></tr><tr><td class='diff_sub' style='text-align:center'>Deleted</td></tr></table></div>
 <div style="margin-left:30px;"><h3>Record Change Totals</h3>
 <span style="font-family:courier;">Total of MESH changes in the records identified by the query</span>
-<table id='difftotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='addedtotal'></td></tr><tr><td>Total deleted: </td><td id='deletedtotal'></td></tr><tr><td>Total unchanged: </td><td id='changedtotal'></td></tr></table></div>
+<table id='difftotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='addedtotal'>{{ addedtotal }}</td></tr><tr><td>Total deleted: </td><td id='deletedtotal'>{{ deletedtotal }}</td></tr><tr><td>Total unchanged: </td><td id='changedtotal'>{{ unchangedtotal }}</td></tr></table></div>
 <div style="margin-left:30px;"><h3>MESH Change Totals</h3><span style="font-family:courier;">Total changes to the specific MESH searched in records identified by the query</span><table id='diffmeshtotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='meshaddedtotal'></td></tr><tr><td>Total deleted: </td><td id='meshdeletedtotal'></td></tr><tr><td>Total unchanged: </td><td id='meshchangedtotal'></td></tr></table></div></div>
 <div id="difftables">{{DiffHTML | safe }}</div>
 <div class="footer">
@@ -57,27 +57,27 @@ var unchangedtotal = 0;
     $('#changedtotal').text(unchangedtotal);
     var HTMLinput = $('#MESHFilter').val();
 	console.log(HTMLinput)
-    var removedtotal = 0;
-    var addedtotal = 0;
-    var unchangedtotal = 0;
-    $('[id="removedvalue"]:visible').each(function() {
-        var removedvalue = parseFloat($(this).text());
-         if (!isNaN(removedvalue)) {
-            removedtotal += removedvalue;
-            }
-        });
-    $('[id="addedvalue"]:visible').each(function() {
-        var addedvalue = parseFloat($(this).text());
-            if (!isNaN(addedvalue)) {
-            addedtotal += addedvalue;
-            }
-        });
-    $('[id="unchangedvalue"]:visible').each(function() {
-        var unchangedvalue = parseFloat($(this).text());
-        if (!isNaN(unchangedvalue)) {
-            unchangedtotal += unchangedvalue;
-            }
-        });
+    //var removedtotal = 0;
+    //var addedtotal = 0;
+    //var unchangedtotal = 0;
+    //$('[id="removedvalue"]:visible').each(function() {
+        //var removedvalue = parseFloat($(this).text());
+         //if (!isNaN(removedvalue)) {
+            //removedtotal += removedvalue;
+            //}
+        //});
+    //$('[id="addedvalue"]:visible').each(function() {
+        //var addedvalue = parseFloat($(this).text());
+            //if (!isNaN(addedvalue)) {
+            //addedtotal += addedvalue;
+            //}
+        //});
+    //$('[id="unchangedvalue"]:visible').each(function() {
+        //var unchangedvalue = parseFloat($(this).text());
+        //if (!isNaN(unchangedvalue)) {
+            //unchangedtotal += unchangedvalue;
+            //}
+        //});
     var removedmeshtotal = "N/A";
     var addedmeshtotal = "N/A";
     var unchangedmeshtotal = "N/A";
@@ -120,9 +120,9 @@ var unchangedtotal = 0;
 	$('#meshdeletedtotal').text(removedmeshtotal);
 	$('#meshchangedtotal').text(unchangedmeshtotal);
 	$('#meshaddedtotal').text(addedmeshtotal);
-	$('#deletedtotal').text(removedtotal);
-	$('#addedtotal').text(addedtotal);
-	$('#changedtotal').text(unchangedtotal);
+	//$('#deletedtotal').text(removedtotal);
+	//$('#addedtotal').text(addedtotal);
+	//$('#changedtotal').text(unchangedtotal);
 });
 </script>
 </body>
