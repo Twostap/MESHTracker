@@ -6,7 +6,8 @@
 <div style="display:flex; flex-direction:column">
 <div id="header"><h2>MESH Indexing Tracker</h2>
 <p>Records from 2026 PubMed baseline that underwent changes to indexing method and at least one MESH since the baseline was released.</p>
-<p>Records can be filtered by using the search button below. Leave blank and click search for all records.</div>
+<p>Records can be filtered by using the search button below. Leave blank and click search for all records.</p>
+<p>Currently only includes the first 500 retrieved records</p></div>
 <div id="inputform">
 <form action="{{ url_for("indexingchanges")}}" method="post" enctype="multipart/form-data">
 <label for="PMIDFilter">PMID</label> <input min="0" value="{{PMIDFilter}}" type="text" id="PMIDFilter" name="PMIDFilter" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="type a PMID">
