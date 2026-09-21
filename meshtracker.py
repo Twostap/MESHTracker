@@ -27,7 +27,9 @@ def indexingchanges():
             filtereddf = filtereddf
         changeddict = filtereddf[['PMID', 'IndexingMethod_x', 'DateRevised_x', 'MESH_x', 'IndexingMethod_y', 'DateRevised_y', 'MESH_y']].to_dict(orient='records')
         HTMLTables = []
-        
+        addedtotal = []
+        removedtotal = []
+        unchangedtotal = []
         
         for obj in changeddict[:5000]:
             PMIDrow = obj["PMID"]
@@ -75,20 +77,29 @@ def indexingchanges():
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
+                addedtotal.append(added)
                 removed = str(sum(1 for line in diffnumbers if line.startswith('- ')))
+                removedtotal.append(removed)
                 unchanged = str(sum(1 for line in diffnumbers if line.startswith('  ')))
+                unchangedtotal.append(unchanged)
                 htmldiff = "<div style='display:inline' id='MESHTable'><h3><a href='" + PMURI + "'>PMID " + PMIDrow + "</a></h3><div style='display:inline-flex'><div style='display:inline'>" + htmldiff + "</div>" + "<div style='display:inline; font-family:courier; margin-left:15px;'><table id='diffcalculations'><tr><td id='addedlabel'>Added:</td><td id='addedvalue'>" + added + "</td><tr><td id='removedlabel'>Removed:</td><td id='removedvalue'>" + removed + "</td></tr><tr><td id='unchangedlabel'>Unchanged:</td><td id='unchangedvalue'>" + unchanged + "</td></tr></table></div></div></div>"
                 HTMLTables.append(htmldiff)
 
         DiffHTML = "".join(HTMLTables) 
-        
+        addedtotal = sum(addedtotal)
+        removedtotal = sum(removedtotal)
+        unchangedtotal = sum(unchangedtotal)
+    
     else:
         MESHFilter = ""
         DiffHTML = ""
         PMIDFilter = ""
         IndexingFilter = ""
+        addedtotal = ""
+        removedtotal = ""
+        unchangedtotal = ""
         
-    return render_template("form.html", MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter)
+    return render_template("form.html", MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal)
 
 if __name__=='__main__':
    app.run()
