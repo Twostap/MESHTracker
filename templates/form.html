@@ -31,30 +31,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
-var removedtotal = 0;
-var addedtotal = 0;
-var unchangedtotal = 0;
-	$('[id="removedvalue"]:visible').each(function() {
-		var removedvalue = parseFloat($(this).text());
-			if (!isNaN(removedvalue)) {
-			removedtotal += removedvalue;
-			}
-		});
-	$('[id="addedvalue"]:visible').each(function() {
-        var addedvalue = parseFloat($(this).text());
-            if (!isNaN(addedvalue)) {
-                addedtotal += addedvalue;
-                }
-            });
-    $('[id="unchangedvalue"]:visible').each(function() {
-        var unchangedvalue = parseFloat($(this).text());
-        if (!isNaN(unchangedvalue)) {
-            unchangedtotal += unchangedvalue;
-            }
-        });
-    $('#deletedtotal').text(removedtotal);
-    $('#addedtotal').text(addedtotal);
-    $('#changedtotal').text(unchangedtotal);
+//var removedtotal = 0;
+//var addedtotal = 0;
+//var unchangedtotal = 0;
+	//$('[id="removedvalue"]:visible').each(function() {
+		//var removedvalue = parseFloat($(this).text());
+			//if (!isNaN(removedvalue)) {
+			//removedtotal += removedvalue;
+			//}
+		//});
+	//$('[id="addedvalue"]:visible').each(function() {
+        //var addedvalue = parseFloat($(this).text());
+            //if (!isNaN(addedvalue)) {
+                //addedtotal += addedvalue;
+                //}
+            //});
+   // $('[id="unchangedvalue"]:visible').each(function() {
+        //var unchangedvalue = parseFloat($(this).text());
+        //if (!isNaN(unchangedvalue)) {
+           // unchangedtotal += unchangedvalue;
+           // }
+        //});
+    //$('#deletedtotal').text(removedtotal);
+    //$('#addedtotal').text(addedtotal);
+    //$('#changedtotal').text(unchangedtotal);
     var HTMLinput = $('#MESHFilter').val();
 	console.log(HTMLinput)
     //var removedtotal = 0;
