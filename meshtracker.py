@@ -39,7 +39,7 @@ def indexingchanges():
         HTMLTables = []
         
         
-        for obj in changeddict:
+        for obj in changeddict[:500]:
             PMIDrow = obj["PMID"]
             PMIDrow = str(PMIDrow)
             OGMESH = obj["MESH_x"]
