@@ -89,7 +89,7 @@ def indexingchanges():
         addedtotal = addedtotal.astype(int)
         removedtotal = removedtotal.astype(int)
         unchangedtotal = unchangedtotal.astype(int)
-        sum(addedtotal)
+        addedtotal = sum(addedtotal)
         removedtotal = sum(removedtotal)
         unchangedtotal = sum(unchangedtotal)
     
