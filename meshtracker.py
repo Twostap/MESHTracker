@@ -78,7 +78,9 @@ def indexingchanges():
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
                 meshremovedcheck = '"diffsub">' + MESHFilter
                 print(meshremovedcheck)
+                print(htmldiff)
                 if meshremovedcheck in htmldiff:
+                    print(matchremoved)
                     meshremoved +=1
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
