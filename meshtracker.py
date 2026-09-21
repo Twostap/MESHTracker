@@ -106,6 +106,7 @@ def indexingchanges():
         addedtotal = ""
         removedtotal = ""
         unchangedtotal = ""
+        meshremoved = ""
         
     return render_template("form.html", MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved)
 
