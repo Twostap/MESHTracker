@@ -32,6 +32,7 @@ def indexingchanges():
         unchangedtotal = []
         meshremoved = 0
         meshadded = 0
+        meshunchanged = 0
         totalrecords = len(changeddict)
         
         for obj in changeddict[:5000]:
@@ -80,10 +81,13 @@ def indexingchanges():
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
                 meshremovedcheck = '"diff_sub">' + MESHFilter
                 meshaddedcheck = '"diff_add">' + MESHFilter
+                meshunchangedcheck = '"nowrap">' + MESHFilter
                 if meshremovedcheck in htmldiff:
                     meshremoved +=1
                 if meshaddedcheck in htmldiff:
                     meshadded +=1
+                if meshunchangedcheck in htmldiff:
+                    meshunchanged +=1
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
                 addedtotal.append(added)
@@ -93,6 +97,7 @@ def indexingchanges():
                 unchangedtotal.append(unchanged)
                 htmldiff = "<div style='display:inline' id='MESHTable'><h3><a href='" + PMURI + "'>PMID " + PMIDrow + "</a></h3><div style='display:inline-flex'><div style='display:inline'>" + htmldiff + "</div>" + "<div style='display:inline; font-family:courier; margin-left:15px;'><table id='diffcalculations'><tr><td id='addedlabel'>Added:</td><td id='addedvalue'>" + added + "</td><tr><td id='removedlabel'>Removed:</td><td id='removedvalue'>" + removed + "</td></tr><tr><td id='unchangedlabel'>Unchanged:</td><td id='unchangedvalue'>" + unchanged + "</td></tr></table></div></div></div>"
                 HTMLTables.append(htmldiff)
+                meshunchanged = meshunchaged / 2
 
         DiffHTML = "".join(HTMLTables) 
         addedtotal = list(map(int, addedtotal))
@@ -113,8 +118,9 @@ def indexingchanges():
         meshremoved = ""
         totalrecords = ""
         meshadded = ""
+        meshunchanged = ""
     
-    return render_template("form.html", totalrecords = totalrecords, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded)
+    return render_template("form.html", totalrecords = totalrecords, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged)
 
 if __name__=='__main__':
    app.run()
