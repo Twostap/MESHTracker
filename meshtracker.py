@@ -31,6 +31,7 @@ def indexingchanges():
         removedtotal = []
         unchangedtotal = []
         meshremoved = 0
+        meshadded = 0
         totalrecords = len(changeddict)
         
         for obj in changeddict[:5000]:
@@ -78,9 +79,11 @@ def indexingchanges():
                 NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
                 meshremovedcheck = '"diff_sub">' + MESHFilter
+                meshaddedcheck = '"diff_add">' + MESHFilter
                 if meshremovedcheck in htmldiff:
-                    print(meshremoved)
                     meshremoved +=1
+                if meshaddedcheck in htmldiff:
+                    meshadded +=1
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
                 addedtotal.append(added)
@@ -109,8 +112,9 @@ def indexingchanges():
         unchangedtotal = ""
         meshremoved = ""
         totalrecords = ""
-        
-    return render_template("form.html", totalrecords = totalrecords, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved)
+        meshadded = ""
+    
+    return render_template("form.html", totalrecords = totalrecords, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded)
 
 if __name__=='__main__':
    app.run()
