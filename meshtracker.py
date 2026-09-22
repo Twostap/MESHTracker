@@ -82,6 +82,7 @@ def indexingchanges():
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
                 meshremovedcheck = '"diff_sub">' + MESHFilter + "</span>"
                 meshaddedcheck = '"diff_add">' + MESHFilter + "</span>"
+                print(meshaddedcheck)
                 meshunchangedcheck = '"nowrap">' + MESHFilter + "</td>"
                 if meshremovedcheck in htmldiff:
                     meshremoved +=1
