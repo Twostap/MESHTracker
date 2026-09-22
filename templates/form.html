@@ -16,7 +16,7 @@
 <br><br><div><button class="FilterButton" type="submit">Search</button></div>
 </form>
 </div>
-<div id="legendsection" style="display:inline-flex; flex-direction: rows"><div><h3>Legend</h3><table border='' style='width:150px' summary='Colors'><tr><th>Colors</th></tr><tr><td class='diff_add' style='text-align:center'>&nbsp;Added&nbsp;</td></tr><tr><td class='diff_chg' style='text-align:center'>Changed</td></tr><tr><td class='diff_sub' style='text-align:center'>Deleted</td></tr></table></div>
+<div id="legendsection" style="display:inline-flex; flex-direction: rows"><div><h3>Total records retrieved: {{ totalrecords }}</h3></div><div><h3>Legend</h3><table border='' style='width:150px' summary='Colors'><tr><th>Colors</th></tr><tr><td class='diff_add' style='text-align:center'>&nbsp;Added&nbsp;</td></tr><tr><td class='diff_chg' style='text-align:center'>Changed</td></tr><tr><td class='diff_sub' style='text-align:center'>Deleted</td></tr></table></div>
 <div style="margin-left:30px;"><h3>Record Change Totals</h3>
 <span style="font-family:courier;">Total of MESH changes in the records identified by the query</span>
 <table id='difftotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='addedtotal'>{{ addedtotal }}</td></tr><tr><td>Total deleted: </td><td id='deletedtotal'>{{ removedtotal }}</td></tr><tr><td>Total unchanged: </td><td id='changedtotal'>{{ unchangedtotal }}</td></tr></table></div>
