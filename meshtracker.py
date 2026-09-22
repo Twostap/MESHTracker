@@ -31,6 +31,7 @@ def indexingchanges():
         removedtotal = []
         unchangedtotal = []
         meshremoved = 0
+        totalrecords = len(changeddict)
         
         for obj in changeddict[:5000]:
             PMIDrow = obj["PMID"]
@@ -109,8 +110,9 @@ def indexingchanges():
         removedtotal = ""
         unchangedtotal = ""
         meshremoved = ""
+        totalrecords = ""
         
-    return render_template("form.html", MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved)
+    return render_template("form.html", totalrecords = totalrecords, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved)
 
 if __name__=='__main__':
    app.run()
