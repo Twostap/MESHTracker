@@ -21,7 +21,7 @@
 <div style="margin-left:30px;"><h3>Record Change Totals</h3>
 <span style="font-family:courier;">Total of MESH changes in the records identified by the query</span>
 <table id='difftotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='addedtotal'>{{ addedtotal }}</td></tr><tr><td>Total deleted: </td><td id='deletedtotal'>{{ removedtotal }}</td></tr><tr><td>Total unchanged: </td><td id='changedtotal'>{{ unchangedtotal }}</td></tr></table></div>
-<div style="margin-left:30px;"><h3>MESH Change Totals</h3><span style="font-family:courier;">Total changes to the specific MESH searched in records identified by the query</span><table id='diffmeshtotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='meshaddedtotal'></td></tr><tr><td>Total deleted: </td><td id='meshdeletedtotal'>{{ meshremoved }}</td></tr><tr><td>Total unchanged: </td><td id='meshchangedtotal'></td></tr></table></div></div>
+<div style="margin-left:30px;"><h3>MESH Change Totals</h3><span style="font-family:courier;">Total changes to the specific MESH searched in records identified by the query</span><table id='diffmeshtotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='meshaddedtotal'>{{ meshadded }}</td></tr><tr><td>Total deleted: </td><td id='meshdeletedtotal'>{{ meshremoved }}</td></tr><tr><td>Total unchanged: </td><td id='meshchangedtotal'></td></tr></table></div></div>
 <div id="difftables">{{DiffHTML | safe }}</div>
 <div class="footer">
 <div class="copyright">
@@ -80,13 +80,13 @@ $(document).ready(function() {
             //}
         //});
    // var removedmeshtotal = "N/A";
-    var addedmeshtotal = "N/A";
+   // var addedmeshtotal = "N/A";
     var unchangedmeshtotal = "N/A";
 	if (HTMLinput !== "") {
 		HTMLinput = HTMLinput.toLowerCase()
 		console.log(HTMLinput)
 		//var removedmeshtotal = 0;
-		var addedmeshtotal = 0;
+		// var addedmeshtotal = 0;
 		var unchangedmeshtotal = 0;
 		//$('[class="diff_sub"]:visible').each(function() {
 			//var removedmeshcontent = $(this).text()
@@ -108,19 +108,19 @@ $(document).ready(function() {
 				console.log(unchangedmeshtotal)
 			};
 		});
-		$('[class="diff_add"]:visible').each(function() {
-			var addedmeshcontent = $(this).text()
-			var addedmeshcontent = addedmeshcontent.toLowerCase()
-			var addedmeshcontent = addedmeshcontent.replaceAll('\u00A0', ' ');
-			if(addedmeshcontent.trim().includes(HTMLinput)) {
-				addedmeshtotal += 1;
-				};
-			});
-		unchangedmeshtotal = unchangedmeshtotal - addedmeshtotal;
+		//$('[class="diff_add"]:visible').each(function() {
+			//var addedmeshcontent = $(this).text()
+			//var addedmeshcontent = addedmeshcontent.toLowerCase()
+			//var addedmeshcontent = addedmeshcontent.replaceAll('\u00A0', ' ');
+			//if(addedmeshcontent.trim().includes(HTMLinput)) {
+			//	addedmeshtotal += 1;
+			//	};
+			//});
+		unchangedmeshtotal = unchangedmeshtotal;
 	};
 	//$('#meshdeletedtotal').text(removedmeshtotal);
 	$('#meshchangedtotal').text(unchangedmeshtotal);
-	$('#meshaddedtotal').text(addedmeshtotal);
+	//$('#meshaddedtotal').text(addedmeshtotal);
 	//$('#deletedtotal').text(removedtotal);
 	//$('#addedtotal').text(addedtotal);
 	//$('#changedtotal').text(unchangedtotal);
