@@ -78,10 +78,8 @@ def indexingchanges():
                 NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
                 meshremovedcheck = '"diff_sub">' + MESHFilter
-                print(meshremovedcheck)
-                print(htmldiff)
                 if meshremovedcheck in htmldiff:
-                    print(matchremoved)
+                    print(meshremoved)
                     meshremoved +=1
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
