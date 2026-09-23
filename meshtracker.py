@@ -120,8 +120,6 @@ def indexingchanges():
                 meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
                 meshaddedcheck = '"diff_add">' + MESHFilter + '</span>'
                 meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                print(meshaddedcheck)
-                print(htmldiff)
                 meshunchangedcheck = '"nowrap">' + MESHFilter + '</td>'
                 meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
                 if meshremovedcheck in htmldiff:
