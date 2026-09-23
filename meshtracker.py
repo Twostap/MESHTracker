@@ -80,10 +80,11 @@ def indexingchanges():
                 OGDesc = "Original (" + OGIndexing + ") " + FirstDateRevised + ""
                 NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
-                meshremovedcheck = '"diff_sub">' + MESHFilter + "</span>"
-                meshaddedcheck = '"diff_add">' + MESHFilter + "</span>"
+                meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
+                meshaddedcheck = '"diff_add">' + MESHFilter + '</span>'
                 print(meshaddedcheck)
-                meshunchangedcheck = '"nowrap">' + MESHFilter + "</td>"
+                print(htmldiff)
+                meshunchangedcheck = '"nowrap">' + MESHFilter + '</td>'
                 if meshremovedcheck in htmldiff:
                     meshremoved +=1
                 if meshaddedcheck in htmldiff:
