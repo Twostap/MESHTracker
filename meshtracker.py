@@ -74,17 +74,13 @@ def indexingchanges():
                 if MESHHeading.count("--") > 1:
                     MESHHeadingsplit = MESHHeading.split("--")
                     MESHHeading1 = MESHHeadingsplit[0] + "--" + MESHHeadingsplit[1]
-                    print(MESHHeading1)
                     MESHHeading2 = MESHHeadingsplit[0] + "--" + MESHHeadingsplit[2]
-                    print(MESHHeading2)
                     if MESHHeading.count("--") > 2:
                         MESHHeading3 = MESHHeadingsplit[0] + "--" + MESHHeadingsplit[3]
                         OGMESH.append(MESHHeading3)
-                        print(MESHHeading3)
                     if MESHHeading.count("--") > 3:
                         MESHHeading4 = MESHHeadingsplit[0] + "--" + MESHHeadingsplit[4]
                         OGMESH.append(MESHHeading4)
-                        print(MESHHeading4)
                     OGMESH.append(MESHHeading1)
                     OGMESH.append(MESHHeading2)
                     OGMESH.remove(MESHHeading)
@@ -92,17 +88,13 @@ def indexingchanges():
                 if NewMESHHeading.count("--") > 1:
                     NewMESHHeadingsplit = NewMESHHeading.split("--")
                     NewMESHHeading1 = NewMESHHeadingsplit[0] + "--" + NewMESHHeadingsplit[1]
-                    print(NewMESHHeading1)
                     NewMESHHeading2 = NewMESHHeadingsplit[0] + "--" + NewMESHHeadingsplit[2]
-                    print(NewMESHHeading2)
                     if NewMESHHeading.count("--") > 2:
                         NewMESHHeading3 = NewMESHHeadingsplit[0] + "--" + NewMESHHeadingsplit[3]
                         NewMESH.append(NewMESHHeading3)
-                        print(NewMESHHeading3)
                     if NewMESHHeading.count("--") > 3:
                         NewMESHHeading4 = NewMESHHeadingsplit[0] + "--" + NewMESHHeadingsplit[4]
                         NewMESH.append(NewMESHHeading4)
-                        print(NewMESHHeading4)
                     NewMESH.append(NewMESHHeading1)
                     NewMESH.append(NewMESHHeading2)
                     NewMESH.remove(NewMESHHeading)
