@@ -42,7 +42,7 @@ def indexingchanges():
                 filtereddf = changedf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
             else:
                 MESHFilter = MESHFilter + "--" + QualifierFilter
-                filteredf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
+                filtereddf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
         else:
             filtereddf = changeddf
         if PMIDFilter is not None and PMIDFilter != "":
