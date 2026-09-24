@@ -31,18 +31,26 @@ def indexingchanges():
     QualifierOptions = "".join(QualifierOptions)
     if request.method == "POST":
         MESHFilter = request.form.get("MESHFilter")
+        print(MESHFilter)
         PMIDFilter = request.form.get("PMIDFilter")
         IndexingFilter = request.form.get("IndexingFilter")
         QualifierFilter = request.form.get("QualifierFilter")
+        print(QualifierFilter)
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
             if QualifierFilter is None or QualifierFilter == "":
                 filtereddf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
-            elif QualifierFilter == "all qualifiers":
+                print("No Qualifier")
+                print(MESHFilter)
+            elif QualifierFilter == "allqualifiers":
                 filtereddf = changedf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
+                print("all qualifiers")
+                print(MESHFilter)
             else:
                 MESHFilter = MESHFilter + "--" + QualifierFilter
                 filtereddf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
+                print("with qualifier")
+                print(MESHFilter)
         else:
             filtereddf = changeddf
         if PMIDFilter is not None and PMIDFilter != "":
