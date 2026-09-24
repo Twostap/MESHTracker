@@ -15,7 +15,7 @@ def indexingchanges():
         MESHTerm = str(MESHTerm)
         MESHID = meshobj['MESHID']
         MESHID = str(MESHID)
-        MESHCombined = "<option value ='" + MESHID + "'>" + MESHTerm + "</option>"
+        MESHCombined = "<option value ='" + MESHTerm + "'>" + MESHTerm + "</option>"
         MESHOptions.append(MESHCombined)
 
     if request.method == "POST":
