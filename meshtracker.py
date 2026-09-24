@@ -18,14 +18,19 @@ def indexingchanges():
         MESHCombined = "<option value ='" + MESHTerm + "'>" + MESHTerm + "</option>"
         MESHOptions.append(MESHCombined)
     MESHOptions = "".join(MESHOptions)
+    QualifierOptions = ""
     if request.method == "POST":
         MESHFilter = request.form.get("MESHFilter")
         PMIDFilter = request.form.get("PMIDFilter")
         IndexingFilter = request.form.get("IndexingFilter")
+        QualifierFilter = request.form.get("QualifierFilter")
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
-            print(MESHFilter)
-            filtereddf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
+            if QualifierFilter is None or QualifierFilter == "":
+                filtereddf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
+            else:
+                MESHFilter = MESHFilter + "--" + QualifierFilter
+                filteredf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
         else:
             filtereddf = changeddf
         if PMIDFilter is not None and PMIDFilter != "":
@@ -165,8 +170,9 @@ def indexingchanges():
         totalrecords = ""
         meshadded = ""
         meshunchanged = ""
+        QualifierOptions = ""
     
-    return render_template("form.html", totalrecords = totalrecords, MESHOptions = MESHOptions, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged)
+    return render_template("form.html", totalrecords = totalrecords, MESHOptions = MESHOptions, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged, QualifierFilter = QualifierFilter, QualifierOptions = QualifierOptions)
 
 if __name__=='__main__':
    app.run()
