@@ -1,0 +1,77 @@
+Qualifier,QualifierID,TreeNumbers
+abnormalities,Q000002,Y02.030.010
+administration & dosage,Q000008,Y07.010; Y10.010
+adverse effects,Q000009,Y07.020; Y10.020
+analogs & derivatives,Q000031,Y03.020
+analysis,Q000032,Y01
+anatomy & histology,Q000033,Y02
+antagonists & inhibitors,Q000037,Y03.030; Y07.040
+biosynthesis,Q000096,Y08.040.010
+blood,Q000097,Y01.010; Y08.040.020
+blood supply,Q000098,Y02.010
+cerebrospinal fluid,Q000134,Y01.020; Y08.040.030
+chemical synthesis,Q000138,Y03.040
+chemically induced,Q000139,Y05.010
+classification,Q000145,Y19
+complications,Q000150,Y05.020
+congenital,Q000151,Y05.030
+cytology,Q000166,Y02.020
+deficiency,Q000172,Y08.040.040
+diagnosis,Q000175,Y04
+diet therapy,Q000178,Y11.010
+drug effects,Q000187,Y21
+drug therapy,Q000188,Y11.020
+economics,Q000191,Y06.010
+education,Q000193,Y23
+embryology,Q000196,Y02.030; Y05.040
+enzymology,Q000201,Y08.040.050
+ethnology,Q000208,Y09.010.010
+etiology,Q000209,Y05
+genetics,Q000235,Y05.050; Y08.010
+growth & development,Q000254,Y08.020
+history,Q000266,Y27
+immunology,Q000276,Y05.060; Y08.030
+injuries,Q000293,Y29
+innervation,Q000294,Y02.040
+instrumentation,Q000295,Y31
+isolation & purification,Q000302,Y01.030
+legislation & jurisprudence,Q000331,Y06.020
+metabolism,Q000378,Y08.040
+methods,Q000379,Y33
+microbiology,Q000382,Y05.070
+mortality,Q000401,Y09.010.020
+nursing,Q000451,Y11.030
+epidemiology,Q000453,Y09.010
+organization & administration,Q000458,Y06
+parasitology,Q000469,Y05.080
+pathogenicity,Q000472,Y35
+pathology,Q000473,Y02.050
+pharmacokinetics,Q000493,Y07.070; Y08.040.060
+pharmacology,Q000494,Y07
+physiology,Q000502,Y08
+physiopathology,Q000503,Y08.050
+poisoning,Q000506,Y07.020.010; Y10.040
+prevention & control,Q000517,Y11.040
+psychology,Q000523,Y37
+radiation effects,Q000528,Y39
+radiotherapy,Q000532,Y11.050
+rehabilitation,Q000534,Y11.060
+secondary,Q000556,Y05.020.010
+standards,Q000592,Y06.040
+supply & distribution,Q000600,Y06.050; Y09.020
+surgery,Q000601,Y11.070
+therapeutic use,Q000627,Y10
+therapy,Q000628,Y11
+toxicity,Q000633,Y07.020.020
+transmission,Q000635,Y05.090
+transplantation,Q000637,Y11.070.010
+trends,Q000639,Y06.060
+ultrastructure,Q000648,Y02.020.020
+urine,Q000652,Y01.040; Y08.040.070
+veterinary,Q000662,Y41
+statistics & numerical data,Q000706,Y09
+chemistry,Q000737,Y03
+agonists,Q000819,Y03.010; Y07.030
+virology,Q000821,Y05.070.010
+ethics,Q000941,Y25
+diagnostic imaging,Q000000981,Y04.010
