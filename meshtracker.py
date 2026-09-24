@@ -17,7 +17,7 @@ def indexingchanges():
         MESHID = str(MESHID)
         MESHCombined = "<option value ='" + MESHTerm + "'>" + MESHTerm + "</option>"
         MESHOptions.append(MESHCombined)
-
+    MESHOptions = "".join(MESHOptions)
     if request.method == "POST":
         MESHFilter = request.form.get("MESHFilter")
         PMIDFilter = request.form.get("PMIDFilter")
