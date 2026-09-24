@@ -20,7 +20,7 @@ def indexingchanges():
         MESHCombined = "<option value ='" + MESHTerm + "'>" + MESHTerm + "</option>"
         MESHOptions.append(MESHCombined)
     MESHOptions = "".join(MESHOptions)
-    for qualifierobj in meshdict:
+    for qualifierobj in qualifierdict:
         QualifierTerm = qualifierobj['Qualifier']
         QualifierTerm = str(QualifierTerm)
         QualifierID = qualifierobj['QualifierID']
