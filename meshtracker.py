@@ -9,7 +9,9 @@ app = Flask(__name__)
 @app.route('/', methods =["GET", "POST"])
 def indexingchanges():
     meshdict = pd.read_csv('meshterms.csv', dtype=str).to_dict(orient='records')
+    qualifierdict = pd.read_csv('qualifiers.csv', dtype=str).to_dict(orient='records')
     MESHOptions = []
+    QualifierOptions = []
     for meshobj in meshdict:
         MESHTerm = meshobj['MESHDescriptor']
         MESHTerm = str(MESHTerm)
@@ -18,7 +20,14 @@ def indexingchanges():
         MESHCombined = "<option value ='" + MESHTerm + "'>" + MESHTerm + "</option>"
         MESHOptions.append(MESHCombined)
     MESHOptions = "".join(MESHOptions)
-    QualifierOptions = ""
+    for qualifierobj in meshdict:
+        QualifierTerm = qualifierobj['Qualifier']
+        QualifierTerm = str(QualifierTerm)
+        QualifierID = qualifierobj['QualifierID']
+        QualifierID = str(QualifierID)
+        QualifierCombined = "<option value ='" + QualifierTerm + "'>" + QualifierTerm + "</option>"
+        QualifierOptions.append(QualifierCombined)
+    QualifierOptions = "".join(QualifierOptions)
     if request.method == "POST":
         MESHFilter = request.form.get("MESHFilter")
         PMIDFilter = request.form.get("PMIDFilter")
@@ -170,7 +179,7 @@ def indexingchanges():
         totalrecords = ""
         meshadded = ""
         meshunchanged = ""
-        QualifierOptions = ""
+        QualifierOptions = QualifierOptions
     
     return render_template("form.html", totalrecords = totalrecords, MESHOptions = MESHOptions, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged, QualifierFilter = QualifierFilter, QualifierOptions = QualifierOptions)
 
