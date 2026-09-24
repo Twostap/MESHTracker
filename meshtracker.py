@@ -12,6 +12,7 @@ def indexingchanges():
     qualifierdict = pd.read_csv('qualifiers.csv', dtype=str).to_dict(orient='records')
     MESHOptions = []
     QualifierOptions = []
+    QualifierOptions.append("<option value='allqualifiers'>All Qualifiers</option>")
     for meshobj in meshdict:
         MESHTerm = meshobj['MESHDescriptor']
         MESHTerm = str(MESHTerm)
