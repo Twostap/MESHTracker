@@ -38,6 +38,8 @@ def indexingchanges():
         if MESHFilter is not None and MESHFilter !="":
             if QualifierFilter is None or QualifierFilter == "":
                 filtereddf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
+            elif QualifierFilter == "all qualifiers":
+                filtereddf = changedf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
             else:
                 MESHFilter = MESHFilter + "--" + QualifierFilter
                 filteredf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
