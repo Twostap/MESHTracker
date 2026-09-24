@@ -8,8 +8,8 @@ app = Flask(__name__)
 
 @app.route('/', methods =["GET", "POST"])
 def indexingchanges():
-    meshdict = pd.read_csv('meshterms.csv', dtype=str).to_dict(orient='records')
-    qualifierdict = pd.read_csv('qualifiers.csv', dtype=str).to_dict(orient='records')
+    meshdict = pd.read_csv('meshterms.csv', dtype=str).sort_values(by='MESHDescriptor').to_dict(orient='records')
+    qualifierdict = pd.read_csv('qualifiers.csv', dtype=str).sort_values(by='Qualifier').to_dict(orient='records')
     MESHOptions = []
     QualifierOptions = []
     QualifierOptions.append("<option value='allqualifiers'>All Qualifiers</option>")
@@ -43,7 +43,7 @@ def indexingchanges():
                 print("No Qualifier")
                 print(MESHFilter)
             elif QualifierFilter == "allqualifiers":
-                filtereddf = changedf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
+                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
                 print("all qualifiers")
                 print(MESHFilter)
             else:
