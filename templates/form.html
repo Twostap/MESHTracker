@@ -11,7 +11,7 @@
 <div id="inputform">
 <form action="{{ url_for("indexingchanges")}}" method="post" enctype="multipart/form-data">
 <label for="PMIDFilter">PMID</label> <input min="0" value="{{PMIDFilter}}" type="text" id="PMIDFilter" name="PMIDFilter" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="type a PMID">
-<br><label for="MESHFilter">MESH</label><select id="MESHFilter" name="MESHFilter" style="margin-top:5px; border; 0; font-size:.6em;"><option value="" selected disabled hidden>Select a MESH</option>{{ MESHOptions | safe }}</select> 
+<br><label for="MESHFilter">MESH</label><input type="text" id="MESHFilter" name="MESHFilter" list="MESHlist" placeholder="Type to search..." style="margin-top:5px; border; 0; font-size:.6em;"><datalist id="MESHlist">{{ MESHOptions | safe }}</datalist></input> 
 <br><label for="QualifierFilter">MESH Qualifier</label><select id="QualifierFilter" name="QualifierFilter" style="margin-top:5px; border; 0; font-size:.6em;"><option value="" selected disabled hidden>Select a Qualifier</option>{{ QualifierOptions | safe }}</select> 
 <br><label for="IndexingFilter">Revised Indexing Method</label> <input min="0" type="text" value="{{IndexingFilter}}" id="IndexingFilter" name="IndexingFilter" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="enter indexing type">
 <br><br><div><button class="FilterButton" type="submit">Search</button></div>
