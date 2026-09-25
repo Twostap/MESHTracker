@@ -32,6 +32,14 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+const MESHinput = document.getElementById('MESHFilter');
+const MESHdatalist = document.getElementById('MESHlist');
+const MESHoptions = Array.from(MESHdatalist.options).map(opt => opt.value);
+if (!MESHoptions.includes(MESHinput.value)) {
+    e.preventDefault();
+    alert('Must select a valid MESH heading from the list');
+  }
+});
 //$(document).ready(function() {
 //var removedtotal = 0;
 //var addedtotal = 0;
