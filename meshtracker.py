@@ -115,12 +115,20 @@ def indexingchanges():
                 OGDesc = "Original (" + OGIndexing + ") " + FirstDateRevised + ""
                 NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
-                meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
-                meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                meshaddedcheck = '"diff_add">' + MESHFilter + '</span>'
-                meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                meshunchangedcheck = '"nowrap">' + MESHFilter + '</td>'
-                meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                if QualifierFilter == "allqualifiers":
+                    meshremovedcheck = '"diff_sub">' + MESHFilter
+                    meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                    meshaddedcheck = '"diff_add">' + MESHFilter
+                    meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                    meshunchangedcheck = '"nowrap">' + MESHFilter
+                    meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                else:
+                    meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
+                    meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                    meshaddedcheck = '"diff_add">' + MESHFilter + '</span>'
+                    meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                    meshunchangedcheck = '"nowrap">' + MESHFilter + '</td>'
+                    meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
                 if meshremovedcheck in htmldiff:
                     meshremoved +=1
                 if meshaddedcheck in htmldiff:
