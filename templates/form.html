@@ -33,13 +33,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 const MESHinput = document.getElementById('MESHFilter');
-const MESHdatalist = document.getElementById('MESHlist');
-const MESHoptions = Array.from(MESHdatalist.options).map(opt => opt.value);
-if (!MESHoptions.includes(MESHinput.value)) {
-    e.preventDefault();
-    alert('Must select a valid MESH heading from the list');
-  }
-});
+MESHinput.addEventListener('change', function () {
+    const MESHdatalist = this.list;
+    const matchFound = Array.from(MESHdatalist.options).some(option => option.value === this.value);
+    if (matchFound) {
+      this.setCustomValidity('');
+    } else {
+      this.setCustomValidity('Not a MESH. Please select a MESH heading from the list.'); // Triggers native error UI
+    }
+  });
 //$(document).ready(function() {
 //var removedtotal = 0;
 //var addedtotal = 0;
