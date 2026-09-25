@@ -12,7 +12,7 @@ def indexingchanges():
     qualifierdict = pd.read_csv('qualifiers.csv', dtype=str).sort_values(by='Qualifier').to_dict(orient='records')
     MESHOptions = []
     QualifierOptions = []
-    QualifierOptions.append("<option value='allqualifiers'>All Qualifiers</option>")
+    QualifierOptions.append("<option value='allqualifiers' selected>All Qualifiers</option>")
     for meshobj in meshdict:
         MESHTerm = meshobj['MESHDescriptor']
         MESHTerm = str(MESHTerm)
@@ -38,17 +38,13 @@ def indexingchanges():
         print(QualifierFilter)
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
-            if QualifierFilter is None or QualifierFilter == "":
-                filtereddf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
-                print("No Qualifier")
-                print(MESHFilter)
-            elif QualifierFilter == "allqualifiers":
+            if QualifierFilter == "allqualifiers":
                 filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
                 print("all qualifiers")
                 print(MESHFilter)
             else:
                 MESHFilter = MESHFilter + "--" + QualifierFilter
-                filtereddf = changeddf.query("MESH_x == @MESHFilter or MESH_y == @MESHFilter")
+                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
                 print("with qualifier")
                 print(MESHFilter)
         else:
