@@ -45,6 +45,7 @@ def indexingchanges():
                 MESHTree = MESHTree.replace("[","")
                 MESHTree = MESHTree.replace("]","")
                 MESHTree = MESHTree.replace(" ","")
+                MESHTree = MESHTree.replace("'","")
                 MESHTree = MESHTree.split(";")
                 print(MESHTree)
                 for TreeNumber in MESHTree:
