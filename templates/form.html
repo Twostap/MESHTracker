@@ -43,7 +43,17 @@ MESHinput.addEventListener('change', function () {
       this.setCustomValidity('Not a MESH. Please select a MESH heading from the list.'); // Triggers native error UI
     }
   });
-//$(document).ready(function() {
+$(document).ready(function() {
+    $('table.diff td').on('click', function() {
+        var MESHTerm = $(this).text
+		var url = "https://www.ncbi.nlm.nih.gov/mesh?Db=mesh&Cmd=DetailsSearch&Term=%" + MESHTerm
+		console.log(url)
+        if (url) {
+            window.location.href = url;
+        }
+    });
+});
+	//$(document).ready(function() {
 //var removedtotal = 0;
 //var addedtotal = 0;
 //var unchangedtotal = 0;
