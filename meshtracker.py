@@ -37,7 +37,7 @@ def indexingchanges():
         ExplodeFilter = request.form.get("ExplodeFilter")
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
-            if ExplodeFilter =="yes":
+            if ExplodeFilter =="on":
                 print("exploding")
                 MESHTree = [mesh["TreeNumbers"] for mesh in meshdict if mesh["MESHDescriptor"] == MESHFilter]
                 for TreeNumber in MESHTree:
