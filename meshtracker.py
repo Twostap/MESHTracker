@@ -34,6 +34,7 @@ def indexingchanges():
         PMIDFilter = request.form.get("PMIDFilter")
         IndexingFilter = request.form.get("IndexingFilter")
         QualifierFilter = request.form.get("QualifierFilter")
+        ExplodeFilter = request.form.get("ExplodeFilter")
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
             MESHTree = [mesh["TreeNumbers"] for mesh in meshdict if mesh["MESHDescriptor"] == MESHFilter]
@@ -193,8 +194,9 @@ def indexingchanges():
         meshchanged = ""
         QualifierFilter = ""
         QualifierOptions = QualifierOptions
+        ExplodeFilter = ""
     
-    return render_template("form.html", totalrecords = totalrecords, MESHOptions = MESHOptions, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged, QualifierFilter = QualifierFilter, QualifierOptions = QualifierOptions, meshchanged = meshchanged)
+    return render_template("form.html", totalrecords = totalrecords, MESHOptions = MESHOptions, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged, QualifierFilter = QualifierFilter, QualifierOptions = QualifierOptions, meshchanged = meshchanged, ExplodeFilter = ExplodeFilter)
 
 if __name__=='__main__':
    app.run()
