@@ -8,9 +8,7 @@ app = Flask(__name__)
 
 @app.route('/', methods =["GET", "POST"])
 def indexingchanges():
-    meshdf = pd.read_csv('meshterms.csv', dtype=str)
-    meshdf['TreeNumbers'] = meshdf['TreeNumbers'].str.split(';')
-    meshdict = meshdf.sort_values(by='MESHDescriptor').to_dict(orient='records')
+    meshdf = pd.read_csv('meshterms.csv', dtype=str).sort_values(by='MESHDescriptor').to_dict(orient='records')
     qualifierdict = pd.read_csv('qualifiers.csv', dtype=str).sort_values(by='Qualifier').to_dict(orient='records')
     MESHOptions = []
     QualifierOptions = []
@@ -42,6 +40,12 @@ def indexingchanges():
             if ExplodeFilter =="on":
                 print("exploding")
                 MESHTree = [mesh["TreeNumbers"] for mesh in meshdict if mesh["MESHDescriptor"] == MESHFilter]
+                print(MESHTree)
+                MESHTree = str(MESHTree)
+                MESHTree = MESHTree.replace("[","")
+                MESHTree = MESHTree.replace("]","")
+                MESHTree = MESHTree.replace(" ","")
+                MESHTree = MESHTree.split(";")
                 print(MESHTree)
                 for TreeNumber in MESHTree:
                     MESHAdditional = []
