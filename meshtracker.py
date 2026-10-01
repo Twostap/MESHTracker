@@ -36,6 +36,8 @@ def indexingchanges():
         QualifierFilter = request.form.get("QualifierFilter")
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
+            MESHTree = [mesh["TreeNumber"] for mesh in meshdict if mesh["MESHDescriptor"] == MESHFilter][0]
+            print(MESHTree)
             MESHFilter = "'" + MESHFilter
             if QualifierFilter == "noqualifiers":
                 filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
