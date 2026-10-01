@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/', methods =["GET", "POST"])
 def indexingchanges():
-    meshdict = pd.read_csv('meshterms.csv', dtype=str).sort_values(by='MESHDescriptor').to_dict(orient='records')
+    meshdf = pd.read_csv('meshterms.csv', dtype=str)
     meshdf['TreeNumbers'] = meshdf['TreeNumbers'].str.split(';')
     meshdict = meshdf.sort_values(by='MESHDescriptor').to_dict(orient='records')
     qualifierdict = pd.read_csv('qualifiers.csv', dtype=str).sort_values(by='Qualifier').to_dict(orient='records')
