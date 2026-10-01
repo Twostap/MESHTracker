@@ -45,11 +45,12 @@ MESHinput.addEventListener('change', function () {
   });
 $(document).ready(function() {
     $('table.diff td').on('click', function() {
-        var MESHTerm = $(this).text
+        var MESHTerm = $(this).text();
+		console.log(MESHTerm)
 		var url = "https://www.ncbi.nlm.nih.gov/mesh?Db=mesh&Cmd=DetailsSearch&Term=%" + MESHTerm
 		console.log(url)
         if (url) {
-            window.location.href = url;
+            window.open(url, '_blank').focus(); 
         }
     });
 });
