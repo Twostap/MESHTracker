@@ -78,6 +78,7 @@ def indexingchanges():
         meshremoved = 0
         meshadded = 0
         meshunchanged = 0
+        meshchanged = 0
         totalrecords = len(changeddict)
         
         for obj in changeddict[:5000]:
@@ -131,6 +132,8 @@ def indexingchanges():
                     meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
                     meshunchangedcheck = '"nowrap">' + MESHFilter
                     meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                    meshchangedcheck = '"diff_chg">' + MESHFilter
+                    meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                 else:
                     meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
                     meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
@@ -138,12 +141,16 @@ def indexingchanges():
                     meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
                     meshunchangedcheck = '"nowrap">' + MESHFilter + '</td>'
                     meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                    meshchangedcheck = '"diff_chg">' + MESHFilter + '</span>'
+                    meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                 if meshremovedcheck in htmldiff:
                     meshremoved +=1
                 if meshaddedcheck in htmldiff:
                     meshadded +=1
                 if meshunchangedcheck in htmldiff:
                     meshunchanged +=1
+                if meshchangedcheck in htmldiff:
+                    meshchanged +=1
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
                 addedtotal.append(added)
@@ -157,6 +164,7 @@ def indexingchanges():
             meshunchanged = "N/A"
             meshadded = "N/A"
             meshremoved = "N/A"
+            meshchanged = "N/A"
 
         DiffHTML = "".join(HTMLTables) 
         addedtotal = list(map(int, addedtotal))
@@ -179,10 +187,11 @@ def indexingchanges():
         totalrecords = ""
         meshadded = ""
         meshunchanged = ""
+        meshchanged = ""
         QualifierFilter = ""
         QualifierOptions = QualifierOptions
     
-    return render_template("form.html", totalrecords = totalrecords, MESHOptions = MESHOptions, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged, QualifierFilter = QualifierFilter, QualifierOptions = QualifierOptions)
+    return render_template("form.html", totalrecords = totalrecords, MESHOptions = MESHOptions, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged, QualifierFilter = QualifierFilter, QualifierOptions = QualifierOptions, meshchanged = meshchanged)
 
 if __name__=='__main__':
    app.run()
