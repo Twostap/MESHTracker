@@ -53,12 +53,20 @@ def indexingchanges():
                 print(MESHFilter)
         else:
             filtereddf = changeddf
-        if PMIDFilter is not None and PMIDFilter != "":
-            filtereddf = filtereddf.query("PMID == @PMIDFilter")
-        else:
-            filtereddf = filtereddf
         if IndexingFilter is not None and IndexingFilter !="":
             filtereddf = filtereddf.query("IndexingMethod_y.str.contains(@IndexingFilter, case=False)")
+        else:
+            filtereddf = filtereddf
+        if PMIDFilter is not None and PMIDFilter != "":
+            if PMIDFilter.count(";") > 1:
+                PMIDArray = PMIDFilter.split(";")
+                PMIDDataFrameArray = []
+                for PMIDFilterNumber in PMIDArray:
+                    PMIDdf = filtereddf.query("PMID == @PMIDFilterNumber")
+                    PMIDDataFrameArray.append(PMIDdf)
+                filtereddf = pd.concat(PMIDDataFrameArray, ignore_index=True)
+            else:
+                filtereddf = filtereddf.query("PMID == @PMIDFilter")
         else:
             filtereddf = filtereddf
         changeddict = filtereddf[['PMID', 'IndexingMethod_x', 'DateRevised_x', 'MESH_x', 'IndexingMethod_y', 'DateRevised_y', 'MESH_y']].to_dict(orient='records')
