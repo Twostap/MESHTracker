@@ -58,13 +58,16 @@ def indexingchanges():
         else:
             filtereddf = filtereddf
         if PMIDFilter is not None and PMIDFilter != "":
+            print(PMIDFilter)
             if PMIDFilter.count(";") > 1:
                 PMIDArray = PMIDFilter.split(";")
+                print(PMIDArray)
                 PMIDDataFrameArray = []
                 for PMIDFilterNumber in PMIDArray:
                     PMIDdf = filtereddf.query("PMID == @PMIDFilterNumber")
                     PMIDDataFrameArray.append(PMIDdf)
                 filtereddf = pd.concat(PMIDDataFrameArray, ignore_index=True)
+                print("concatenated filtereddf")
             else:
                 filtereddf = filtereddf.query("PMID == @PMIDFilter")
         else:
