@@ -31,11 +31,9 @@ def indexingchanges():
     QualifierOptions = "".join(QualifierOptions)
     if request.method == "POST":
         MESHFilter = request.form.get("MESHFilter")
-        print(MESHFilter)
         PMIDFilter = request.form.get("PMIDFilter")
         IndexingFilter = request.form.get("IndexingFilter")
         QualifierFilter = request.form.get("QualifierFilter")
-        print(QualifierFilter)
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
             if QualifierFilter == "noqualifiers":
@@ -59,7 +57,7 @@ def indexingchanges():
             filtereddf = filtereddf
         if PMIDFilter is not None and PMIDFilter != "":
             print(PMIDFilter)
-            if PMIDFilter.count(";") > 1:
+            if PMIDFilter.count(";") >= 1:
                 PMIDArray = PMIDFilter.split(";")
                 print(PMIDArray)
                 PMIDDataFrameArray = []
