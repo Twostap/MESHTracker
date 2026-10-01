@@ -37,8 +37,14 @@ def indexingchanges():
         ExplodeFilter = request.form.get("ExplodeFilter")
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
-            MESHTree = [mesh["TreeNumbers"] for mesh in meshdict if mesh["MESHDescriptor"] == MESHFilter]
-            print(MESHTree)
+            if ExplodeFilter =="yes":
+                print("exploding")
+                MESHTree = [mesh["TreeNumbers"] for mesh in meshdict if mesh["MESHDescriptor"] == MESHFilter]
+                for TreeNumber in MESHTree:
+                    MESHAdditional = []
+                    MESHAdditionalTerm = [mesh["MESHDescriptor"] for mesh in meshdict if TreeNumber in mesh["TreeNumbers"]]
+                    MESHAdditional.append(MESHAdditionalTerm)
+                print(MESHAdditionalTerm)
             MESHFilter = "'" + MESHFilter
             if QualifierFilter == "noqualifiers":
                 filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
