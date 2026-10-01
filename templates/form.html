@@ -44,7 +44,16 @@ MESHinput.addEventListener('change', function () {
     }
   });
 $(document).ready(function() {
-    $('table.diff td').on('click', function() {
+    $('table.diff td:nth-child(3)').on('click', function() {
+        var MESHTerm = $(this).text();
+		console.log(MESHTerm)
+		var url = "https://www.ncbi.nlm.nih.gov/mesh?Db=mesh&Cmd=DetailsSearch&Term=%" + MESHTerm
+		console.log(url)
+        if (url) {
+            window.open(url, '_blank').focus(); 
+        }
+    });
+$('table.diff td:nth-child(6)').on('click', function() {
         var MESHTerm = $(this).text();
 		console.log(MESHTerm)
 		var url = "https://www.ncbi.nlm.nih.gov/mesh?Db=mesh&Cmd=DetailsSearch&Term=%" + MESHTerm
