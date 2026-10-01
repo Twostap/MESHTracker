@@ -40,6 +40,7 @@ def indexingchanges():
             if ExplodeFilter =="on":
                 print("exploding")
                 MESHTree = [mesh["TreeNumbers"] for mesh in meshdict if mesh["MESHDescriptor"] == MESHFilter]
+                MESHTree = MESHTree.split(";")
                 for TreeNumber in MESHTree:
                     MESHAdditional = []
                     TreeNumberBelow = TreeNumber + "."
