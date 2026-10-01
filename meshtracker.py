@@ -42,7 +42,9 @@ def indexingchanges():
                 MESHTree = [mesh["TreeNumbers"] for mesh in meshdict if mesh["MESHDescriptor"] == MESHFilter]
                 for TreeNumber in MESHTree:
                     MESHAdditional = []
-                    MESHAdditionalTerm = [mesh["MESHDescriptor"] for mesh in meshdict if TreeNumber in mesh["TreeNumbers"]]
+                    TreeNumberBelow = TreeNumber + "."
+                    print(TreeNumberBelow)
+                    MESHAdditionalTerm = [mesh["MESHDescriptor"] for mesh in meshdict if TreeNumberBelow in mesh["TreeNumbers"]]
                     MESHAdditional.append(MESHAdditionalTerm)
                 print(MESHAdditionalTerm)
             MESHFilter = "'" + MESHFilter
