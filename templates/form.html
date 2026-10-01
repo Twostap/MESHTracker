@@ -48,7 +48,9 @@ $(document).ready(function() {
         var MESHTerm = $(this).text();
 		console.log(MESHTerm)
 		var url = "https://www.ncbi.nlm.nih.gov/mesh?Db=mesh&Cmd=DetailsSearch&Term=" + MESHTerm
-		var url = url.split('-')[0]; 
+		if (url.includes("-")) {
+			var url = url.split("-")[0];
+		}
 		console.log(url)
         if (url) {
             window.open(url, '_blank').focus(); 
@@ -57,7 +59,9 @@ $(document).ready(function() {
 $('table.diff td:nth-child(6)').on('click', function() {
         var MESHTerm = $(this).text();
 		console.log(MESHTerm)
-		var url = url.split('-')[0]; 
+		if (url.includes("-")) {
+			var url = url.split("-")[0];
+		}	
 		var url = "https://www.ncbi.nlm.nih.gov/mesh?Db=mesh&Cmd=DetailsSearch&Term=" + MESHTerm
 		console.log(url)
         if (url) {
