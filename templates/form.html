@@ -49,7 +49,7 @@ $(document).ready(function() {
 		console.log(MESHTerm)
 		var url = "https://www.ncbi.nlm.nih.gov/mesh?Db=mesh&Cmd=DetailsSearch&Term=" + MESHTerm
 		if (url.includes("--")) {
-			var url = url.split("-")[0];
+			var url = url.split("--")[0];
 		}
 		console.log(url)
         if (url) {
@@ -61,7 +61,7 @@ $('table.diff td:nth-child(6)').on('click', function() {
 		console.log(MESHTerm)
 		var url = "https://www.ncbi.nlm.nih.gov/mesh?Db=mesh&Cmd=DetailsSearch&Term=" + MESHTerm
 		if (url.includes("--")) {
-			var url = url.split("-")[0];
+			var url = url.split("--")[0];
 		}	
 		console.log(url)
         if (url) {
