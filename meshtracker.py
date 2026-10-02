@@ -57,21 +57,23 @@ def indexingchanges():
                     MESHAdditionalTerms = meshadditionalmatchdf["MESHDescriptor"].tolist()
                     print(MESHAdditionalTerms)
                     MESHAdditional.append(MESHAdditionalTerms)
+                MESHAdditional = list(dict.fromkeys(MESHAdditional))
+                MESHAdditional = MESHAdditional.join(', ')
                 print(MESHAdditional)
-            MESHFilter = "'" + MESHFilter
+            MESHFilterap = "'" + MESHFilter
             if QualifierFilter == "noqualifiers":
-                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
-                MESHFilterWithQual = MESHFilter + "--"
+                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                MESHFilterWithQual = MESHFilterap + "--"
                 filtereddf = filtereddf.query("not MESH_x.str.contains(@MESHFilterWithQual, case=False) and not MESH_y.str.contains(@MESHFilterWithQual, case=False)")
             elif QualifierFilter == "allqualifiers":
-                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
+                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
                 print("all qualifiers")
-                print(MESHFilter)
+                print(MESHFilterap)
             else:
-                MESHFilter = MESHFilter + "--" + QualifierFilter
-                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
+                MESHFilterap = MESHFilterap + "--" + QualifierFilter
+                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
                 print("with qualifier")
-                print(MESHFilter)
+                print(MESHFilterap)
         else:
             filtereddf = changeddf
         if IndexingFilter is not None and IndexingFilter !="":
