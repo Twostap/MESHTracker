@@ -58,8 +58,9 @@ def indexingchanges():
                     print(MESHAdditionalTerms)
                     MESHAdditional.append(MESHAdditionalTerms)
                 print(MESHAdditional)
-                ", ".join(MESHAdditional)
+                MESHAdditional = [item for sublist in MESHAdditional for item in sublist]
                 MESHAdditional = list(set(data))
+                MESHAdditional = list(filter(None, MESHAdditional))
                 print(MESHAdditional)
             MESHFilterap = "'" + MESHFilter
             if QualifierFilter == "noqualifiers":
