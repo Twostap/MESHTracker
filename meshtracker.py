@@ -64,20 +64,41 @@ def indexingchanges():
                 print(MESHAdditional)
                 MESHAdditional.append(MESHFilter)
                 print(MESHAdditional)
-            MESHFilterap = "'" + MESHFilter
-            if QualifierFilter == "noqualifiers":
-                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-                MESHFilterWithQual = MESHFilterap + "--"
-                filtereddf = filtereddf.query("not MESH_x.str.contains(@MESHFilterWithQual, case=False) and not MESH_y.str.contains(@MESHFilterWithQual, case=False)")
-            elif QualifierFilter == "allqualifiers":
-                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-                print("all qualifiers")
-                print(MESHFilterap)
+                MESHFilterdfarray = []
+                for MESHFilterap in MESHAdditional:
+                    MESHFilterap = "'" + MESHFilterap 
+                    if QualifierFilter == "noqualifiers":
+                        explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                        MESHFilterWithQual = MESHFilterap + "--"
+                        explodefiltereddf = explodefiltereddf.query("not MESH_x.str.contains(@MESHFilterWithQual, case=False) and not MESH_y.str.contains(@MESHFilterWithQual, case=False)")
+                        MESHFilterdfarray.append(explodefiltereddf)
+                    elif QualifierFilter == "allqualifiers":
+                        explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                        print("all qualifiers")
+                        print(MESHFilterap)
+                        MESHFilterdfarray.append(explodefiltereddf)
+                    else:
+                        MESHFilterap = MESHFilterap + "--" + QualifierFilter
+                        explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                        print("with qualifier")
+                        print(MESHFilterap)
+                        MESHFilterdfarray.append(explodefiltereddf)
+                filtereddf = pd.concat(MESHFilterdfarray, ignore_index=True)
             else:
-                MESHFilterap = MESHFilterap + "--" + QualifierFilter
-                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-                print("with qualifier")
-                print(MESHFilterap)
+                MESHFilterap = "'" + MESHFilter
+                if QualifierFilter == "noqualifiers":
+                    filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                    MESHFilterWithQual = MESHFilterap + "--"
+                    filtereddf = filtereddf.query("not MESH_x.str.contains(@MESHFilterWithQual, case=False) and not MESH_y.str.contains(@MESHFilterWithQual, case=False)")
+                elif QualifierFilter == "allqualifiers":
+                    filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                    print("all qualifiers")
+                    print(MESHFilterap)
+                else:
+                    MESHFilterap = MESHFilterap + "--" + QualifierFilter
+                    filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                    print("with qualifier")
+                    print(MESHFilterap)
         else:
             filtereddf = changeddf
         if IndexingFilter is not None and IndexingFilter !="":
@@ -154,32 +175,61 @@ def indexingchanges():
                 OGDesc = "Original (" + OGIndexing + ") " + FirstDateRevised + ""
                 NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
-                if QualifierFilter == "allqualifiers":
-                    meshremovedcheck = '"diff_sub">' + MESHFilter
-                    meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                    meshaddedcheck = '"diff_add">' + MESHFilter
-                    meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                    meshunchangedcheck = '"nowrap">' + MESHFilter
-                    meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
-                    meshchangedcheck = '"diff_chg">' + MESHFilter
-                    meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                if ExplodeFilter =="on":
+                    for MESHFilterEx in MESHAdditional:
+                        if QualifierFilter == "allqualifiers":
+                            meshremovedcheck = '"diff_sub">' + MESHFilterEx
+                            meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                            meshaddedcheck = '"diff_add">' + MESHFilterEx
+                            meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                            meshunchangedcheck = '"nowrap">' + MESHFilterEx
+                            meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                            meshchangedcheck = '"diff_chg">' + MESHFilterEx
+                            meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                        else:
+                            meshremovedcheck = '"diff_sub">' + MESHFilterEx + '</span>'
+                            meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                            meshaddedcheck = '"diff_add">' + MESHFilterEx + '</span>'
+                            meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                            meshunchangedcheck = '"nowrap">' + MESHFilterEx + '</td>'
+                            meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                            meshchangedcheck = '"diff_chg">' + MESHFilterEx + '</span>'
+                            meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                        if meshremovedcheck in htmldiff:
+                            meshremoved +=1
+                        if meshaddedcheck in htmldiff:
+                            meshadded +=1
+                        if meshunchangedcheck in htmldiff:
+                            meshunchanged +=1
+                        if meshchangedcheck in htmldiff:
+                            meshchanged +=1
                 else:
-                    meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
-                    meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                    meshaddedcheck = '"diff_add">' + MESHFilter + '</span>'
-                    meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                    meshunchangedcheck = '"nowrap">' + MESHFilter + '</td>'
-                    meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
-                    meshchangedcheck = '"diff_chg">' + MESHFilter + '</span>'
-                    meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
-                if meshremovedcheck in htmldiff:
-                    meshremoved +=1
-                if meshaddedcheck in htmldiff:
-                    meshadded +=1
-                if meshunchangedcheck in htmldiff:
-                    meshunchanged +=1
-                if meshchangedcheck in htmldiff:
-                    meshchanged +=1
+                    if QualifierFilter == "allqualifiers":
+                        meshremovedcheck = '"diff_sub">' + MESHFilter
+                        meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                        meshaddedcheck = '"diff_add">' + MESHFilter
+                        meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                        meshunchangedcheck = '"nowrap">' + MESHFilter
+                        meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                        meshchangedcheck = '"diff_chg">' + MESHFilter
+                        meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                    else:
+                        meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
+                        meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                        meshaddedcheck = '"diff_add">' + MESHFilter + '</span>'
+                        meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                        meshunchangedcheck = '"nowrap">' + MESHFilter + '</td>'
+                        meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                        meshchangedcheck = '"diff_chg">' + MESHFilter + '</span>'
+                        meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                    if meshremovedcheck in htmldiff:
+                        meshremoved +=1
+                    if meshaddedcheck in htmldiff:
+                        meshadded +=1
+                    if meshunchangedcheck in htmldiff:
+                        meshunchanged +=1
+                    if meshchangedcheck in htmldiff:
+                        meshchanged +=1
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
                 addedtotal.append(added)
