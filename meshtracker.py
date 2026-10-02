@@ -58,6 +58,7 @@ def indexingchanges():
                     print(MESHAdditionalTerms)
                     MESHAdditional.append(MESHAdditionalTerms)
                 print(MESHAdditional)
+                MESHAdditional.append(MESHFilter)
                 MESHAdditional = [item for sublist in MESHAdditional for item in sublist]
                 MESHAdditional = list(set(MESHAdditional))
                 MESHAdditional = list(filter(None, MESHAdditional))
