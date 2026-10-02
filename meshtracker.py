@@ -57,8 +57,9 @@ def indexingchanges():
                     MESHAdditionalTerms = meshadditionalmatchdf["MESHDescriptor"].tolist()
                     print(MESHAdditionalTerms)
                     MESHAdditional.append(MESHAdditionalTerms)
-                MESHAdditional = list(dict.fromkeys(MESHAdditional))
-                MESHAdditional = MESHAdditional.join(', ')
+                print(MESHAdditional)
+                MESHAdditional.join(",")
+                MESHAdditional = list(set(data))
                 print(MESHAdditional)
             MESHFilterap = "'" + MESHFilter
             if QualifierFilter == "noqualifiers":
