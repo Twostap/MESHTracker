@@ -51,7 +51,7 @@ def indexingchanges():
                 print(MESHTree)
                 MESHAdditional = []
                 for TreeNumber in MESHTree:
-                    TreeNumberBelow = TreeNumber + "."
+                    TreeNumberBelow = TreeNumber + "\\."
                     print(TreeNumberBelow)
                     meshadditionalmatchdf = meshdf.query("TreeNumbers.str.contains(@TreeNumberBelow)")
                     MESHAdditionalTerms = meshadditionalmatchdf["MESHDescriptor"].tolist()
