@@ -58,7 +58,7 @@ def indexingchanges():
                     print(MESHAdditionalTerms)
                     MESHAdditional.append(MESHAdditionalTerms)
                 print(MESHAdditional)
-                MESHAdditional.join(",")
+                ", ".join(MESHAdditional)
                 MESHAdditional = list(set(data))
                 print(MESHAdditional)
             MESHFilterap = "'" + MESHFilter
