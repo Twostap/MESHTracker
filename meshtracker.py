@@ -58,11 +58,11 @@ def indexingchanges():
                     print(MESHAdditionalTerms)
                     MESHAdditional.append(MESHAdditionalTerms)
                 print(MESHAdditional)
-                MESHAdditional.append(MESHFilter)
                 MESHAdditional = [item for sublist in MESHAdditional for item in sublist]
                 MESHAdditional = list(set(MESHAdditional))
                 MESHAdditional = list(filter(None, MESHAdditional))
                 print(MESHAdditional)
+                MESHAdditional.append(MESHFilter)
             MESHFilterap = "'" + MESHFilter
             if QualifierFilter == "noqualifiers":
                 filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
