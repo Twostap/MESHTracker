@@ -8,7 +8,8 @@ app = Flask(__name__)
 
 @app.route('/', methods =["GET", "POST"])
 def indexingchanges():
-    meshdict = pd.read_csv('meshterms.csv', dtype=str).sort_values(by='MESHDescriptor').to_dict(orient='records')
+    meshdf = pd.read_csv('meshterms.csv', dtype=str)
+    meshdict = meshdf.sort_values(by='MESHDescriptor').to_dict(orient='records')
     qualifierdict = pd.read_csv('qualifiers.csv', dtype=str).sort_values(by='Qualifier').to_dict(orient='records')
     MESHOptions = []
     QualifierOptions = []
@@ -38,8 +39,8 @@ def indexingchanges():
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
             if ExplodeFilter =="on":
-                print("exploding")
-                MESHTree = [mesh["TreeNumbers"] for mesh in meshdict if mesh["MESHDescriptor"] == MESHFilter]
+                descriptormatchdf = meshdf.query("MESHDescriptor == @MESHFilter")
+                MESHTree = descriptormatchdf['TreeNumbers'].tolist()
                 print(MESHTree)
                 MESHTree = str(MESHTree)
                 MESHTree = MESHTree.replace("[","")
@@ -48,14 +49,15 @@ def indexingchanges():
                 MESHTree = MESHTree.replace("'","")
                 MESHTree = MESHTree.split(";")
                 print(MESHTree)
+                MESHAdditional = []
                 for TreeNumber in MESHTree:
-                    MESHAdditional = []
                     TreeNumberBelow = TreeNumber + "."
                     print(TreeNumberBelow)
-                    print(MESHAdditionalTermdict)
-                    MESHAdditionalTerm = [mesh["MESHDescriptor"] for mesh in meshdict if TreeNumberBelow in mesh["TreeNumbers"]]
-                    MESHAdditional.append(MESHAdditionalTerm)
-                print(MESHAdditionalTerm)
+                    meshadditionalmatchdf = meshdf.query("TreeNumbers.str.contains(@TreeNumberBelow)")
+                    MESHAdditionalTerms = meshadditionalmatchdf["MESHDescriptor"].tolist()
+                    print(MESHAdditionalTerms)
+                    MESHAdditional.append(MESHAdditionalTerms)
+                print(MESHAdditional)
             MESHFilter = "'" + MESHFilter
             if QualifierFilter == "noqualifiers":
                 filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
