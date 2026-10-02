@@ -63,6 +63,7 @@ def indexingchanges():
                 MESHAdditional = list(filter(None, MESHAdditional))
                 print(MESHAdditional)
                 MESHAdditional.append(MESHFilter)
+                print(MESHAdditional)
             MESHFilterap = "'" + MESHFilter
             if QualifierFilter == "noqualifiers":
                 filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
