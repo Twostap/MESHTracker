@@ -41,29 +41,22 @@ def indexingchanges():
             if ExplodeFilter =="on":
                 descriptormatchdf = meshdf.query("MESHDescriptor == @MESHFilter")
                 MESHTree = descriptormatchdf['TreeNumbers'].tolist()
-                print(MESHTree)
                 MESHTree = str(MESHTree)
                 MESHTree = MESHTree.replace("[","")
                 MESHTree = MESHTree.replace("]","")
                 MESHTree = MESHTree.replace(" ","")
                 MESHTree = MESHTree.replace("'","")
                 MESHTree = MESHTree.split(";")
-                print(MESHTree)
                 MESHAdditional = []
                 for TreeNumber in MESHTree:
                     TreeNumberBelow = TreeNumber + r"\."
-                    print(TreeNumberBelow)
                     meshadditionalmatchdf = meshdf.query("TreeNumbers.str.contains(@TreeNumberBelow)")
                     MESHAdditionalTerms = meshadditionalmatchdf["MESHDescriptor"].tolist()
-                    print(MESHAdditionalTerms)
                     MESHAdditional.append(MESHAdditionalTerms)
-                print(MESHAdditional)
                 MESHAdditional = [item for sublist in MESHAdditional for item in sublist]
                 MESHAdditional = list(set(MESHAdditional))
                 MESHAdditional = list(filter(None, MESHAdditional))
-                print(MESHAdditional)
                 MESHAdditional.append(MESHFilter)
-                print(MESHAdditional)
                 MESHFilterdfarray = []
                 for MESHFilterap in MESHAdditional:
                     MESHFilterap = "'" + MESHFilterap 
@@ -74,14 +67,10 @@ def indexingchanges():
                         MESHFilterdfarray.append(explodefiltereddf)
                     elif QualifierFilter == "allqualifiers":
                         explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-                        print("all qualifiers")
-                        print(MESHFilterap)
                         MESHFilterdfarray.append(explodefiltereddf)
                     else:
                         MESHFilterap = MESHFilterap + "--" + QualifierFilter
                         explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-                        print("with qualifier")
-                        print(MESHFilterap)
                         MESHFilterdfarray.append(explodefiltereddf)
                 filtereddf = pd.concat(MESHFilterdfarray, ignore_index=True)
             else:
@@ -92,13 +81,9 @@ def indexingchanges():
                     filtereddf = filtereddf.query("not MESH_x.str.contains(@MESHFilterWithQual, case=False) and not MESH_y.str.contains(@MESHFilterWithQual, case=False)")
                 elif QualifierFilter == "allqualifiers":
                     filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-                    print("all qualifiers")
-                    print(MESHFilterap)
                 else:
                     MESHFilterap = MESHFilterap + "--" + QualifierFilter
                     filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-                    print("with qualifier")
-                    print(MESHFilterap)
         else:
             filtereddf = changeddf
         if IndexingFilter is not None and IndexingFilter !="":
@@ -106,16 +91,13 @@ def indexingchanges():
         else:
             filtereddf = filtereddf
         if PMIDFilter is not None and PMIDFilter != "":
-            print(PMIDFilter)
             if PMIDFilter.count(";") >= 1:
                 PMIDArray = PMIDFilter.split(";")
-                print(PMIDArray)
                 PMIDDataFrameArray = []
                 for PMIDFilterNumber in PMIDArray:
                     PMIDdf = filtereddf.query("PMID == @PMIDFilterNumber")
                     PMIDDataFrameArray.append(PMIDdf)
                 filtereddf = pd.concat(PMIDDataFrameArray, ignore_index=True)
-                print("concatenated filtereddf")
             else:
                 filtereddf = filtereddf.query("PMID == @PMIDFilter")
         else:
