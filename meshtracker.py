@@ -59,7 +59,7 @@ def indexingchanges():
                     MESHAdditional.append(MESHAdditionalTerms)
                 print(MESHAdditional)
                 MESHAdditional = [item for sublist in MESHAdditional for item in sublist]
-                MESHAdditional = list(set(data))
+                MESHAdditional = list(set(MESHAdditional))
                 MESHAdditional = list(filter(None, MESHAdditional))
                 print(MESHAdditional)
             MESHFilterap = "'" + MESHFilter
