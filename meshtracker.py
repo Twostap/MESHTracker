@@ -114,8 +114,13 @@ def indexingchanges():
         meshunchanged = 0
         meshchanged = 0
         totalrecords = len(changeddict)
-        
-        for obj in changeddict[:5000]:
+        if page == 1:
+            changeddict = changeddict[:5000]
+        if page == 2:
+            changeddict = changeddict[5000:10000]
+        if page == 3:
+            changeddict = changeddict[15000:20000]
+        for obj in changeddict:
             PMIDrow = obj["PMID"]
             PMIDrow = str(PMIDrow)
             OGMESH = obj["MESH_x"]
