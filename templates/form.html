@@ -26,6 +26,7 @@
 <table id='difftotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='addedtotal'>{{ addedtotal }}</td></tr><tr><td>Total deleted: </td><td id='deletedtotal'>{{ removedtotal }}</td></tr><tr><td>Total unchanged: </td><td id='changedtotal'>{{ unchangedtotal }}</td></tr></table></div>
 <div style="margin-left:30px;"><h3>MESH Change Totals</h3><span style="font-family:courier;">Total changes to the specific MESH searched in records identified by the query</span><table id='diffmeshtotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='meshaddedtotal'>{{ meshadded }}</td></tr><tr><td>Total deleted: </td><td id='meshdeletedtotal'>{{ meshremoved }}</td></tr><tr><td>Total unchanged: </td><td id='meshunchangedtotal'>{{ meshunchanged }}</td></tr></table></div></div>
 <div id="difftables">{{DiffHTML | safe }}</div>
+<a href="{{ url_for('form', page=page+1) }}">Next Page</a>
 <div class="footer">
 <div class="copyright">
 <p class="copyright" style="font-size:1em; font-family: Calibri;">© Copyright 2026 Tyler Ostapyk</p>
