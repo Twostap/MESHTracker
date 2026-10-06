@@ -10,12 +10,12 @@
 <p>Displays tables for 5000 retrieved records at a time. Click "Next Page" to view additional tables.</p>
 <p>If searching for more than one PMID separate the list using semicolons and no spaces</p></div>
 <div id="inputform">
-<form action="{{ url_for("indexingchanges")}}" method="post" enctype="multipart/form-data">
-<label for="PMIDFilter">PMID</label>  <input min="0" value="{{PMIDFilter}}" type="text" id="PMIDFilter" name="PMIDFilter" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="type a PMID">
-<br><label for="MESHFilter">MESH</label>  <input type="text" id="MESHFilter" name="MESHFilter" list="MESHlist" placeholder="Type to search..." autocomplete="off" style="margin-top:5px; border; 0; font-size:.6em;"><datalist id="MESHlist">{{ MESHOptions | safe }}</datalist></input> 
-<br><label for="ExplodeFilter">Explode</label><input type="checkbox" id="ExplodeFilter" name="ExplodeFilter">
-<br><label for="QualifierFilter">MESH Qualifier</label>  <select id="QualifierFilter" name="QualifierFilter" style="margin-top:5px; border; 0; font-size:.6em;">{{ QualifierOptions | safe }}</select> 
-<br><label for="IndexingFilter">Revised Indexing Method</label>  <input min="0" type="text" value="{{IndexingFilter}}" id="IndexingFilter" name="IndexingFilter" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="enter indexing type">
+<form action="{{ url_for("indexingchanges", page=1)}}" method="get" enctype="multipart/form-data">
+<label for="PMID">PMID</label>  <input min="0" value="{{PMID}}" type="text" id="PMID" name="PMID" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="type a PMID">
+<br><label for="MESH">MESH</label>  <input type="text" id="MESH" name="MESH" list="MESHlist" placeholder="Type to search..." autocomplete="off" style="margin-top:5px; border; 0; font-size:.6em;"><datalist id="MESHlist">{{ MESHOptions | safe }}</datalist></input> 
+<br><label for="Explode">Explode</label><input type="checkbox" id="Explode" name="Explode">
+<br><label for="Qualifier">MESH Qualifier</label>  <select id="Qualifier" name="Qualifier" style="margin-top:5px; border; 0; font-size:.6em;">{{ QualifierOptions | safe }}</select> 
+<br><label for="Indexing">Revised Indexing Method</label>  <input min="0" type="text" value="{{Indexing}}" id="Indexing" name="Indexing" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="enter indexing type">
 <br><br><div><button class="FilterButton" type="submit">Search</button>
 </div>
 </form>
