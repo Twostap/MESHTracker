@@ -10,7 +10,7 @@
 <p>Currently only displays tables for the first 5000 retrieved records</p>
 <p>If searching for more than one PMID separate the list using semicolons and no spaces</p></div>
 <div id="inputform">
-<form action="{{ url_for("indexingchanges")}}" method="post" enctype="multipart/form-data">
+<form action="{{ url_for("indexingchanges", page=page, MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter)}}" method="post" enctype="multipart/form-data">
 <label for="PMIDFilter">PMID</label>  <input min="0" value="{{PMIDFilter}}" type="text" id="PMIDFilter" name="PMIDFilter" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="type a PMID">
 <br><label for="MESHFilter">MESH</label>  <input type="text" id="MESHFilter" name="MESHFilter" list="MESHlist" placeholder="Type to search..." autocomplete="off" style="margin-top:5px; border; 0; font-size:.6em;"><datalist id="MESHlist">{{ MESHOptions | safe }}</datalist></input> 
 <br><label for="ExplodeFilter">Explode</label><input type="checkbox" id="ExplodeFilter" name="ExplodeFilter">
@@ -25,7 +25,7 @@
 <span style="font-family:courier;">Total of MESH changes in the records identified by the query</span>
 <table id='difftotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='addedtotal'>{{ addedtotal }}</td></tr><tr><td>Total deleted: </td><td id='deletedtotal'>{{ removedtotal }}</td></tr><tr><td>Total unchanged: </td><td id='changedtotal'>{{ unchangedtotal }}</td></tr></table></div>
 <div style="margin-left:30px;"><h3>MESH Change Totals</h3><span style="font-family:courier;">Total changes to the specific MESH searched in records identified by the query</span><table id='diffmeshtotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='meshaddedtotal'>{{ meshadded }}</td></tr><tr><td>Total deleted: </td><td id='meshdeletedtotal'>{{ meshremoved }}</td></tr><tr><td>Total unchanged: </td><td id='meshunchangedtotal'>{{ meshunchanged }}</td></tr></table></div></div>
-<a href="{{ url_for('indexingchanges', page=page+1) }}">Next Page (Not implemented yet, currently working on this)</a>
+<a href="{{ url_for('indexingchanges', page=page+1, MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter) }}">Next Page (Not implemented yet, currently working on this)</a>
 <div id="difftables">{{DiffHTML | safe }}</div>
 <div class="footer">
 <div class="copyright">
