@@ -1,6 +1,6 @@
 <html>
 <head><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style type='text/css'>.diff {font-family:Courier; border: solid 1px black} .diff td:nth-child(3) {cursor:pointer} .diff td:nth-child(6) {cursor:pointer} .diff_header {background-color:#e0e0e0} td.diff_header {text-align:right; width:10px;} .diff_next {display: none;} .diff_add {background-color:#aaffaa} .diff_chg {background-color:#ffff77} .diff_sub {background-color:#ffaaaa}</style>
+<style type='text/css'>.nextpage {text-decoration: none; width: 100px; border: 1px solid black; text-align:center; background-color: light-grey; font-weight: 800; font-family:Courier}  .diff {font-family:Courier; border: solid 1px black} .diff td:nth-child(3) {cursor:pointer} .diff td:nth-child(6) {cursor:pointer} .diff_header {background-color:#e0e0e0} td.diff_header {text-align:right; width:10px;} .diff_next {display: none;} .diff_add {background-color:#aaffaa} .diff_chg {background-color:#ffff77} .diff_sub {background-color:#ffaaaa}</style>
 </head>
 <body>
 <div style="display:flex; flex-direction:column">
@@ -26,7 +26,7 @@
 <span style="font-family:courier;">Total of MESH changes in the records identified by the query</span>
 <table id='difftotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='addedtotal'>{{ addedtotal }}</td></tr><tr><td>Total deleted: </td><td id='deletedtotal'>{{ removedtotal }}</td></tr><tr><td>Total unchanged: </td><td id='changedtotal'>{{ unchangedtotal }}</td></tr></table></div>
 <div style="margin-left:30px;"><h3>MESH Change Totals</h3><span style="font-family:courier;">Total changes to the specific MESH searched in records identified by the query</span><table id='diffmeshtotals' style="font-family:courier; margin-top:10px;"><tr><td>Total added: </td><td id='meshaddedtotal'>{{ meshadded }}</td></tr><tr><td>Total deleted: </td><td id='meshdeletedtotal'>{{ meshremoved }}</td></tr><tr><td>Total unchanged: </td><td id='meshunchangedtotal'>{{ meshunchanged }}</td></tr></table></div></div>
-<div id="nextpage" style='{{ NextPageLink }}'><a href="{{ url_for('indexingchanges', page=page+1, MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter) }}">Next Page</a></div>
+<div class="nextpage" style='{{ NextPageLink }}'><a href="{{ url_for('indexingchanges', page=page+1, MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter) }}">Next Page</a></div>
 <div id="difftables">{{DiffHTML | safe }}</div>
 <div class="footer">
 <div class="copyright">
