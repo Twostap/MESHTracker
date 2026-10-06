@@ -47,6 +47,7 @@ def indexingchanges():
         meshadded = ""
         meshremoved = ""
         meshchanged = ""
+        totalrecords = ""
     else:
         if request.method == "POST":
             MESHFilter = request.form.get("MESHFilter")
