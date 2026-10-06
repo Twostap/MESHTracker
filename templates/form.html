@@ -7,7 +7,7 @@
 <div id="header"><h2>MESH Indexing Tracker</h2>
 <p>Records from 2026 PubMed baseline that underwent changes to indexing method and at least one MESH since the baseline was released.</p>
 <p>Records can be filtered by using the search button below. Leave blank and click search for all records.</p>
-<p>Currently only displays tables for the first 5000 retrieved records</p>
+<p>Displays tables for 5000 retrieved records at a time. Click "Next Page" to view additional tables.</p>
 <p>If searching for more than one PMID separate the list using semicolons and no spaces</p></div>
 <div id="inputform">
 <form action="{{ url_for("indexingchanges", page=1, MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter)}}" method="post" enctype="multipart/form-data">
