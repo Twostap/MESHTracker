@@ -31,8 +31,6 @@ def indexingchanges():
         QualifierCombined = "<option value ='" + QualifierTerm + "'>" + QualifierTerm + "</option>"
         QualifierOptions.append(QualifierCombined)
     QualifierOptions = "".join(QualifierOptions)
-    if request.method == "POST":
-        page = 1
     if page == 0:
         MESHFilter = ""
         PMIDFilter = ""
@@ -51,18 +49,11 @@ def indexingchanges():
         NextPageLink = "display: none;"
         print(NextPageLink)
     else:
-        if request.method == "POST":
-            MESHFilter = request.form.get("MESHFilter")
-            PMIDFilter = request.form.get("PMIDFilter")
-            IndexingFilter = request.form.get("IndexingFilter")
-            QualifierFilter = request.form.get("QualifierFilter")
-            ExplodeFilter = request.form.get("ExplodeFilter")
-        else:
-            MESHFilter = request.args.get('MESH', default = "")
-            PMIDFilter = request.args.get('PMID', default = "")
-            IndexingFilter = request.args.get('Indexing', default = "")
-            QualifierFilter = request.args.get('Qualifier', default = "")
-            ExplodeFilter = request.args.get('Explode', default = "")     
+        MESHFilter = request.args.get('MESH', default = "")
+        PMIDFilter = request.args.get('PMID', default = "")
+        IndexingFilter = request.args.get('Indexing', default = "")
+        QualifierFilter = request.args.get('Qualifier', default = "")
+        ExplodeFilter = request.args.get('Explode', default = "")     
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
             if ExplodeFilter =="on":
@@ -330,8 +321,8 @@ def indexingchanges():
         removedtotal = sum(removedtotal)
         unchangedtotal = sum(unchangedtotal)
 
-        if request.method == "POST":
-            return redirect(url_for('indexingchanges', page=page, MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter))
+        #if request.method == "POST":
+            #return redirect(url_for('indexingchanges', page=page, MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter))
 
     return render_template("form.html", MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter, page=page, totalrecords = totalrecords, MESHOptions = MESHOptions, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged, QualifierFilter = QualifierFilter, QualifierOptions = QualifierOptions, meshchanged = meshchanged, ExplodeFilter = ExplodeFilter, NextPageLink = NextPageLink)
 
