@@ -10,7 +10,7 @@
 <p>Displays tables for 5000 retrieved records at a time. Click "Next Page" to view additional tables.</p>
 <p>If searching for more than one PMID separate the list using semicolons and no spaces</p></div>
 <div id="inputform">
-<form action="{{ url_for("indexingchanges", page=1, MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter)}}" method="post" enctype="multipart/form-data">
+<form action="{{ url_for("indexingchanges", page=1, MESH={{MESHFilter}}, PMID={{PMIDFilter}}, Indexing={{IndexingFilter}}, Qualifier={{QualifierFilter}}, Explode={{ExplodeFilter}})}}" method="post" enctype="multipart/form-data">
 <label for="PMIDFilter">PMID</label>  <input min="0" value="{{PMIDFilter}}" type="text" id="PMIDFilter" name="PMIDFilter" style="margin-top:5px; border; 0; font-size:.6em;" placeholder="type a PMID">
 <br><label for="MESHFilter">MESH</label>  <input type="text" id="MESHFilter" name="MESHFilter" list="MESHlist" placeholder="Type to search..." autocomplete="off" style="margin-top:5px; border; 0; font-size:.6em;"><datalist id="MESHlist">{{ MESHOptions | safe }}</datalist></input> 
 <br><label for="ExplodeFilter">Explode</label><input type="checkbox" id="ExplodeFilter" name="ExplodeFilter">
