@@ -139,7 +139,7 @@ def indexingchanges():
         print(changeddictstart)
         changeddictend = page * 1000
         print(changeddictend)
-        if total records < changeddictend:
+        if totalrecords < changeddictend:
             NextPageLink = "display: none;"
         changeddict = changeddict[changeddictstart:changeddictend]
         for obj in changeddict:
