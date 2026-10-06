@@ -94,10 +94,13 @@ def indexingchanges():
                 filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
     else:
         filtereddf = changeddf
+        MESHFilter = ""
+        QualifierFilter = ""
     if IndexingFilter is not None and IndexingFilter !="":
         filtereddf = filtereddf.query("IndexingMethod_y.str.contains(@IndexingFilter, case=False)")
     else:
         filtereddf = filtereddf
+        IndexingFilter = ""
     if PMIDFilter is not None and PMIDFilter != "":
         if PMIDFilter.count(";") >= 1:
             PMIDArray = PMIDFilter.split(";")
@@ -110,6 +113,7 @@ def indexingchanges():
             filtereddf = filtereddf.query("PMID == @PMIDFilter")
     else:
         filtereddf = filtereddf
+        PMIDFilter = ""
     changeddict = filtereddf[['PMID', 'IndexingMethod_x', 'DateRevised_x', 'MESH_x', 'IndexingMethod_y', 'DateRevised_y', 'MESH_y']].to_dict(orient='records')
     HTMLTables = []
     addedtotal = []
