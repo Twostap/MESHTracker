@@ -143,9 +143,28 @@ def indexingchanges():
             PMIDrow = obj["PMID"]
             PMIDrow = str(PMIDrow)
             OGMESH = obj["MESH_x"]
-            print(OGMESH)
+            OGMESH = OGMESH.replace("Physicians'","Physicians")
+            OGMESH = OGMESH.replace('"','$')
+            OGMESH = OGMESH.replace("$","'")
+            OGMESH = OGMESH.replace('",',"'")
+            OGMESH = OGMESH.replace(", '",";")
+            OGMESH = OGMESH.replace("'","")
+            OGMESH = OGMESH.replace("[","")
+            OGMESH = OGMESH.replace("]","")
+            OGMESH = OGMESH.replace('"',"")
+            OGMESH = OGMESH.split(";")
             NewMESH = obj["MESH_y"]
-            print(NewMESH)
+            NewMESH = NewMESH.replace("Physicians'","Physicians")
+            NewMESH = NewMESH.replace('"','$')
+            NewMESH = NewMESH.replace('$',"'")
+            NewMESH = NewMESH.replace(", '",";")
+            NewMESH = NewMESH.replace("'","")
+            NewMESH = NewMESH.replace('"[',"")
+            NewMESH = NewMESH.replace(']"',"")
+            NewMESH = NewMESH.replace("[","")
+            NewMESH = NewMESH.replace("]","")
+            NewMESH = NewMESH.replace('"',"")
+            NewMESH = NewMESH.split(";")
             OGIndexing = obj["IndexingMethod_x"]
             NewIndexing = obj["IndexingMethod_y"]
             FirstDateRevised = obj["DateRevised_x"]
