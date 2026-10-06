@@ -242,6 +242,7 @@ def indexingchanges():
                     if meshchangedcheck in htmldiff:
                         meshchanged +=1
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
+                print(diffnumbers)
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
                 addedtotal.append(added)
                 removed = str(sum(1 for line in diffnumbers if line.startswith('- ')))
