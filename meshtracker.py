@@ -48,6 +48,7 @@ def indexingchanges():
         meshremoved = ""
         meshchanged = ""
         totalrecords = ""
+        NextPageLink = "display: none;"
     else:
         if request.method == "POST":
             MESHFilter = request.form.get("MESHFilter")
@@ -143,48 +144,68 @@ def indexingchanges():
         totalrecords = len(changeddict)
         if page == 1:
             changeddict = changeddict[:5000]
+            if totalrecords < 5000:
+                NextPageLink = "display: none;"
         if page == 2:
             changeddict = changeddict[5000:10000]
-            print("onpage2")
+            if totalrecords < 10000:
+                NextPageLink = "display: none;"
         if page == 3:
-            changeddict = changeddict[15000:20000]
-            print("onpage3")
+            changeddict = changeddict[10000:15000]
+            if totalrecords < 15000:
+                NextPageLink = "display: none;"
         if page == 4:
-            changeddict = changeddict[20000:25000]
-            print("onpage3")
+            changeddict = changeddict[15000:20000]
+            if totalrecords < 20000:
+                NextPageLink = "display: none;"
         if page == 5:
-            changeddict = changeddict[25000:30000]
-            print("onpage3")
+            changeddict = changeddict[20000:25000]
+            if totalrecords < 25000:
+                NextPageLink = "display: none;"
         if page == 6:
-            changeddict = changeddict[30000:35000]
-            print("onpage3")
+            changeddict = changeddict[25000:30000]
+            if totalrecords < 30000:
+                NextPageLink = "display: none;"
         if page == 7:
-            changeddict = changeddict[35000:40000]
-            print("onpage3")
+            changeddict = changeddict[30000:35000]
+            if totalrecords < 35000:
+                NextPageLink = "display: none;"
         if page == 8:
-            changeddict = changeddict[40000:45000]
-            print("onpage3")
+            changeddict = changeddict[35000:40000]
+            if totalrecords < 40000:
+                NextPageLink = "display: none;"
         if page == 9:
-            changeddict = changeddict[45000:50000]
-            print("onpage3")
+            changeddict = changeddict[40000:45000]
+            if totalrecords < 450000:
+                NextPageLink = "display: none;"
         if page == 10:
-            changeddict = changeddict[50000:55000]
-            print("onpage3")
+            changeddict = changeddict[45000:50000]
+            if totalrecords < 50000:
+                NextPageLink = "display: none;"
         if page == 11:
+            changeddict = changeddict[50000:55000]
+            if totalrecords < 55000:
+                NextPageLink = "display: none;"
+        if page == 12:
             changeddict = changeddict[55000:60000]
-            print("onpage3")
+            if totalrecords < 60000:
+                NextPageLink = "display: none;"
         if page == 12:
             changeddict = changeddict[60000:65000]
-            print("onpage3")
-        if page == 12:
-            changeddict = changeddict[65000:70000]
-            print("onpage3")
+            if totalrecords < 65000:
+                NextPageLink = "display: none;"
         if page == 13:
-            changeddict = changeddict[70000:75000]
-            print("onpage3")
+            changeddict = changeddict[65000:70000]
+            if totalrecords < 70000:
+                NextPageLink = "display: none;"
         if page == 14:
+            changeddict = changeddict[70000:75000]
+            if totalrecords < 75000:
+                NextPageLink = "display: none;"
+        if page == 15:
             changeddict = changeddict[75000:80000]
-            print("onpage3")
+            if totalrecords < 80000:
+                NextPageLink = "display: none;"
         for obj in changeddict:
             PMIDrow = obj["PMID"]
             PMIDrow = str(PMIDrow)
