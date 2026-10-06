@@ -50,6 +50,7 @@ def indexingchanges():
         meshchanged = ""
         totalrecords = ""
         NextPageLink = "display: none;"
+        print(NextPageLink)
     else:
         if request.method == "POST":
             MESHFilter = request.form.get("MESHFilter")
