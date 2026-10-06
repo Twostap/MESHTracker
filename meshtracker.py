@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 import pandas as pd
 import difflib
 from pathlib import Path
@@ -329,6 +329,8 @@ def indexingchanges():
         addedtotal = sum(addedtotal)
         removedtotal = sum(removedtotal)
         unchangedtotal = sum(unchangedtotal)
+
+        return redirect(url_for('indexingchanges', page=page, MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter))
     
     return render_template("form.html", MESH=MESHFilter, PMID=PMIDFilter, Indexing=IndexingFilter, Qualifier=QualifierFilter, Explode=ExplodeFilter, page=page, totalrecords = totalrecords, MESHOptions = MESHOptions, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged, QualifierFilter = QualifierFilter, QualifierOptions = QualifierOptions, meshchanged = meshchanged, ExplodeFilter = ExplodeFilter, NextPageLink = NextPageLink)
 
