@@ -138,6 +138,7 @@ def indexingchanges():
         if totalrecords < changeddictend:
             NextPageLink = "display: none;"
         changeddict = changeddict[changeddictstart:changeddictend]
+        print(len(changeddict))
         for obj in changeddict:
             PMIDrow = obj["PMID"]
             PMIDrow = str(PMIDrow)
