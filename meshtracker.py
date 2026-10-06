@@ -119,6 +119,7 @@ def indexingchanges():
                 filtereddf = filtereddf.query("PMID == @PMIDFilter")
         else:
             filtereddf = filtereddf
+        filtereddf = filtereddf.sort_values(by='PMID')
         changeddict = filtereddf[['PMID', 'IndexingMethod_x', 'DateRevised_x', 'MESH_x', 'IndexingMethod_y', 'DateRevised_y', 'MESH_y']].to_dict(orient='records')
         HTMLTables = []
         addedtotal = []
