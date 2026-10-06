@@ -9,6 +9,7 @@ app = Flask(__name__)
 @app.route('/', methods =["GET", "POST"])
 def indexingchanges():
     page = request.args.get('page', default = 0, type = int)
+    NextPageLink = ""
     meshdf = pd.read_csv('meshterms.csv', dtype=str)
     meshdict = meshdf.sort_values(by='MESHDescriptor').to_dict(orient='records')
     qualifierdict = pd.read_csv('qualifiers.csv', dtype=str).sort_values(by='Qualifier').to_dict(orient='records')
