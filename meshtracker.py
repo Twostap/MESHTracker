@@ -135,7 +135,7 @@ def indexingchanges():
         meshchanged = 0
         totalrecords = len(changeddict)
         NextPageLink = ""
-        changedictstart = page - 1 * 1000
+        changeddictstart = page - 1 * 1000
         print(changeddictstart)
         changeddictend = page * 1000
         print(changeddictend)
