@@ -149,6 +149,42 @@ def indexingchanges():
         if page == 3:
             changeddict = changeddict[15000:20000]
             print("onpage3")
+        if page == 4:
+            changeddict = changeddict[20000:25000]
+            print("onpage3")
+        if page == 5:
+            changeddict = changeddict[25000:30000]
+            print("onpage3")
+        if page == 6:
+            changeddict = changeddict[30000:35000]
+            print("onpage3")
+        if page == 7:
+            changeddict = changeddict[35000:40000]
+            print("onpage3")
+        if page == 8:
+            changeddict = changeddict[40000:45000]
+            print("onpage3")
+        if page == 9:
+            changeddict = changeddict[45000:50000]
+            print("onpage3")
+        if page == 10:
+            changeddict = changeddict[50000:55000]
+            print("onpage3")
+        if page == 11:
+            changeddict = changeddict[55000:60000]
+            print("onpage3")
+        if page == 12:
+            changeddict = changeddict[60000:65000]
+            print("onpage3")
+        if page == 12:
+            changeddict = changeddict[65000:70000]
+            print("onpage3")
+        if page == 13:
+            changeddict = changeddict[70000:75000]
+            print("onpage3")
+        if page == 14:
+            changeddict = changeddict[75000:80000]
+            print("onpage3")
         for obj in changeddict:
             PMIDrow = obj["PMID"]
             PMIDrow = str(PMIDrow)
