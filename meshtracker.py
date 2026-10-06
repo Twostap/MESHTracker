@@ -8,8 +8,7 @@ app = Flask(__name__)
 
 @app.route('/', methods =["GET", "POST"])
 def indexingchanges():
-    page = request.args.get('page', default = 1, type = int)
-    print(page)
+    page = request.args.get('page', default = 0, type = int)
     meshdf = pd.read_csv('meshterms.csv', dtype=str)
     meshdict = meshdf.sort_values(by='MESHDescriptor').to_dict(orient='records')
     qualifierdict = pd.read_csv('qualifiers.csv', dtype=str).sort_values(by='Qualifier').to_dict(orient='records')
@@ -33,168 +32,212 @@ def indexingchanges():
         QualifierOptions.append(QualifierCombined)
     QualifierOptions = "".join(QualifierOptions)
     if request.method == "POST":
-        MESHFilter = request.form.get("MESHFilter")
-        PMIDFilter = request.form.get("PMIDFilter")
-        IndexingFilter = request.form.get("IndexingFilter")
-        QualifierFilter = request.form.get("QualifierFilter")
-        ExplodeFilter = request.form.get("ExplodeFilter")
+        page = 1
+    if page == 0:
+        MESHFilter = ""
+        PMIDFilter = ""
+        IndexingFilter = ""
+        QualifierFilter = ""
+        ExplodeFilter = ""
+        DiffHTML = ""
+        addedtotal = ""
+        removedtotal = ""
+        unchangedtotal = ""
+        meshunchanged = ""
+        meshadded = ""
+        meshremoved = ""
+        meshchanged = ""
     else:
-        MESHFilter = request.args.get('MESH', default = "")
-        PMIDFilter = request.args.get('PMID', default = "")
-        IndexingFilter = request.args.get('Indexing', default = "")
-        QualifierFilter = request.args.get('Qualifier', default = "")
-        ExplodeFilter = request.args.get('Explode', default = "")     
-    changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
-    if MESHFilter is not None and MESHFilter !="":
-        if ExplodeFilter =="on":
-            descriptormatchdf = meshdf.query("MESHDescriptor == @MESHFilter")
-            MESHTree = descriptormatchdf['TreeNumbers'].tolist()
-            MESHTree = str(MESHTree)
-            MESHTree = MESHTree.replace("[","")
-            MESHTree = MESHTree.replace("]","")
-            MESHTree = MESHTree.replace(" ","")
-            MESHTree = MESHTree.replace("'","")
-            MESHTree = MESHTree.split(";")
-            MESHAdditional = []
-            for TreeNumber in MESHTree:
-                TreeNumberBelow = TreeNumber + r"\."
-                meshadditionalmatchdf = meshdf.query("TreeNumbers.str.contains(@TreeNumberBelow)")
-                MESHAdditionalTerms = meshadditionalmatchdf["MESHDescriptor"].tolist()
-                MESHAdditional.append(MESHAdditionalTerms)
-            MESHAdditional = [item for sublist in MESHAdditional for item in sublist]
-            MESHAdditional = list(set(MESHAdditional))
-            MESHAdditional = list(filter(None, MESHAdditional))
-            MESHAdditional.append(MESHFilter)
-            MESHFilterdfarray = []
-            for MESHFilterap in MESHAdditional:
-                MESHFilterap = "'" + MESHFilterap 
+        if request.method == "POST":
+            MESHFilter = request.form.get("MESHFilter")
+            PMIDFilter = request.form.get("PMIDFilter")
+            IndexingFilter = request.form.get("IndexingFilter")
+            QualifierFilter = request.form.get("QualifierFilter")
+            ExplodeFilter = request.form.get("ExplodeFilter")
+        else:
+            MESHFilter = request.args.get('MESH', default = "")
+            PMIDFilter = request.args.get('PMID', default = "")
+            IndexingFilter = request.args.get('Indexing', default = "")
+            QualifierFilter = request.args.get('Qualifier', default = "")
+            ExplodeFilter = request.args.get('Explode', default = "")     
+        changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
+        if MESHFilter is not None and MESHFilter !="":
+            if ExplodeFilter =="on":
+                descriptormatchdf = meshdf.query("MESHDescriptor == @MESHFilter")
+                MESHTree = descriptormatchdf['TreeNumbers'].tolist()
+                MESHTree = str(MESHTree)
+                MESHTree = MESHTree.replace("[","")
+                MESHTree = MESHTree.replace("]","")
+                MESHTree = MESHTree.replace(" ","")
+                MESHTree = MESHTree.replace("'","")
+                MESHTree = MESHTree.split(";")
+                MESHAdditional = []
+                for TreeNumber in MESHTree:
+                    TreeNumberBelow = TreeNumber + r"\."
+                    meshadditionalmatchdf = meshdf.query("TreeNumbers.str.contains(@TreeNumberBelow)")
+                    MESHAdditionalTerms = meshadditionalmatchdf["MESHDescriptor"].tolist()
+                    MESHAdditional.append(MESHAdditionalTerms)
+                MESHAdditional = [item for sublist in MESHAdditional for item in sublist]
+                MESHAdditional = list(set(MESHAdditional))
+                MESHAdditional = list(filter(None, MESHAdditional))
+                MESHAdditional.append(MESHFilter)
+                MESHFilterdfarray = []
+                for MESHFilterap in MESHAdditional:
+                    MESHFilterap = "'" + MESHFilterap 
+                    if QualifierFilter == "noqualifiers":
+                        explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                        MESHFilterWithQual = MESHFilterap + "--"
+                        explodefiltereddf = explodefiltereddf.query("not MESH_x.str.contains(@MESHFilterWithQual, case=False) and not MESH_y.str.contains(@MESHFilterWithQual, case=False)")
+                        MESHFilterdfarray.append(explodefiltereddf)
+                    elif QualifierFilter == "allqualifiers":
+                        explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                        MESHFilterdfarray.append(explodefiltereddf)
+                    else:
+                        MESHFilterap = MESHFilterap + "--" + QualifierFilter
+                        explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                        MESHFilterdfarray.append(explodefiltereddf)
+                filtereddf = pd.concat(MESHFilterdfarray, ignore_index=True)
+            else:
+                MESHFilterap = "'" + MESHFilter
                 if QualifierFilter == "noqualifiers":
-                    explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+                    filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
                     MESHFilterWithQual = MESHFilterap + "--"
-                    explodefiltereddf = explodefiltereddf.query("not MESH_x.str.contains(@MESHFilterWithQual, case=False) and not MESH_y.str.contains(@MESHFilterWithQual, case=False)")
-                    MESHFilterdfarray.append(explodefiltereddf)
+                    filtereddf = filtereddf.query("not MESH_x.str.contains(@MESHFilterWithQual, case=False) and not MESH_y.str.contains(@MESHFilterWithQual, case=False)")
                 elif QualifierFilter == "allqualifiers":
-                    explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-                    MESHFilterdfarray.append(explodefiltereddf)
+                    filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
                 else:
                     MESHFilterap = MESHFilterap + "--" + QualifierFilter
-                    explodefiltereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-                    MESHFilterdfarray.append(explodefiltereddf)
-            filtereddf = pd.concat(MESHFilterdfarray, ignore_index=True)
+                    filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
         else:
-            MESHFilterap = "'" + MESHFilter
-            if QualifierFilter == "noqualifiers":
-                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-                MESHFilterWithQual = MESHFilterap + "--"
-                filtereddf = filtereddf.query("not MESH_x.str.contains(@MESHFilterWithQual, case=False) and not MESH_y.str.contains(@MESHFilterWithQual, case=False)")
-            elif QualifierFilter == "allqualifiers":
-                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
+            filtereddf = changeddf
+            MESHFilter = ""
+            QualifierFilter = ""
+        if IndexingFilter is not None and IndexingFilter !="":
+            filtereddf = filtereddf.query("IndexingMethod_y.str.contains(@IndexingFilter, case=False)")
+        else:
+            filtereddf = filtereddf
+            IndexingFilter = ""
+        if PMIDFilter is not None and PMIDFilter != "":
+            if PMIDFilter.count(";") >= 1:
+                PMIDArray = PMIDFilter.split(";")
+                PMIDDataFrameArray = []
+                for PMIDFilterNumber in PMIDArray:
+                    PMIDdf = filtereddf.query("PMID == @PMIDFilterNumber")
+                    PMIDDataFrameArray.append(PMIDdf)
+                filtereddf = pd.concat(PMIDDataFrameArray, ignore_index=True)
             else:
-                MESHFilterap = MESHFilterap + "--" + QualifierFilter
-                filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-    else:
-        filtereddf = changeddf
-        MESHFilter = ""
-        QualifierFilter = ""
-    if IndexingFilter is not None and IndexingFilter !="":
-        filtereddf = filtereddf.query("IndexingMethod_y.str.contains(@IndexingFilter, case=False)")
-    else:
-        filtereddf = filtereddf
-        IndexingFilter = ""
-    if PMIDFilter is not None and PMIDFilter != "":
-        if PMIDFilter.count(";") >= 1:
-            PMIDArray = PMIDFilter.split(";")
-            PMIDDataFrameArray = []
-            for PMIDFilterNumber in PMIDArray:
-                PMIDdf = filtereddf.query("PMID == @PMIDFilterNumber")
-                PMIDDataFrameArray.append(PMIDdf)
-            filtereddf = pd.concat(PMIDDataFrameArray, ignore_index=True)
+                filtereddf = filtereddf.query("PMID == @PMIDFilter")
         else:
-            filtereddf = filtereddf.query("PMID == @PMIDFilter")
-    else:
-        filtereddf = filtereddf
-        PMIDFilter = ""
-    changeddict = filtereddf[['PMID', 'IndexingMethod_x', 'DateRevised_x', 'MESH_x', 'IndexingMethod_y', 'DateRevised_y', 'MESH_y']].to_dict(orient='records')
-    HTMLTables = []
-    addedtotal = []
-    removedtotal = []
-    unchangedtotal = []
-    meshremoved = 0
-    meshadded = 0
-    meshunchanged = 0
-    meshchanged = 0
-    totalrecords = len(changeddict)
-    if page == 1:
-        changeddict = changeddict[:5000]
-    if page == 2:
-        changeddict = changeddict[5000:10000]
-        print("onpage2")
-    if page == 3:
-        changeddict = changeddict[15000:20000]
-        print("onpage3")
-    for obj in changeddict:
-        PMIDrow = obj["PMID"]
-        PMIDrow = str(PMIDrow)
-        OGMESH = obj["MESH_x"]
-        OGMESH = OGMESH.replace("Physicians'","Physicians")
-        OGMESH = OGMESH.replace('"','$')
-        OGMESH = OGMESH.replace("$","'")
-        OGMESH = OGMESH.replace('",',"'")
-        OGMESH = OGMESH.replace(", '",";")
-        OGMESH = OGMESH.replace("'","")
-        OGMESH = OGMESH.replace("[","")
-        OGMESH = OGMESH.replace("]","")
-        OGMESH = OGMESH.replace('"',"")
-        OGMESH = OGMESH.split(";")
-        NewMESH = obj["MESH_y"]
-        NewMESH = NewMESH.replace("Physicians'","Physicians")
-        NewMESH = NewMESH.replace('"','$')
-        NewMESH = NewMESH.replace('$',"'")
-        NewMESH = NewMESH.replace(", '",";")
-        NewMESH = NewMESH.replace("'","")
-        NewMESH = NewMESH.replace('"[',"")
-        NewMESH = NewMESH.replace(']"',"")
-        NewMESH = NewMESH.replace("[","")
-        NewMESH = NewMESH.replace("]","")
-        NewMESH = NewMESH.replace('"',"")
-        NewMESH = NewMESH.split(";")
-        OGIndexing = obj["IndexingMethod_x"]
-        NewIndexing = obj["IndexingMethod_y"]
-        FirstDateRevised = obj["DateRevised_x"]
-        SecondDateRevised = obj["DateRevised_y"]
-        #might need to split on ', and possibly reformat
-        PMURI = "https://pubmed.ncbi.nlm.nih.gov/" + PMIDrow
-        #Might want to play around with sorting and unsorting when you have the actual data. Looking at reordering of headings might also be interesting
-        #NLM suggests Mesh are ordered in order of importance https://www.nlm.nih.gov/tsd/cataloging/trainingcourses/mesh/mod3_170.html, however, they do seem arranged alphabetically in Pubmed. Need to check XML files
-        OGMESH = sorted(OGMESH)
-        NewMESH = sorted(NewMESH)
-        if OGMESH != NewMESH:
-            OGIndexing = str(OGIndexing)
-            NewIndexing = str(NewIndexing)
-            FirstDateRevised = str(FirstDateRevised)
-            SecondDateRevised = str(SecondDateRevised)
-            OGDesc = "Original (" + OGIndexing + ") " + FirstDateRevised + ""
-            NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
-            htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
-            if ExplodeFilter =="on":
-                for MESHFilterEx in MESHAdditional:
+            filtereddf = filtereddf
+            PMIDFilter = ""
+        changeddict = filtereddf[['PMID', 'IndexingMethod_x', 'DateRevised_x', 'MESH_x', 'IndexingMethod_y', 'DateRevised_y', 'MESH_y']].to_dict(orient='records')
+        HTMLTables = []
+        addedtotal = []
+        removedtotal = []
+        unchangedtotal = []
+        meshremoved = 0
+        meshadded = 0
+        meshunchanged = 0
+        meshchanged = 0
+        totalrecords = len(changeddict)
+        if page == 1:
+            changeddict = changeddict[:5000]
+        if page == 2:
+            changeddict = changeddict[5000:10000]
+            print("onpage2")
+        if page == 3:
+            changeddict = changeddict[15000:20000]
+            print("onpage3")
+        for obj in changeddict:
+            PMIDrow = obj["PMID"]
+            PMIDrow = str(PMIDrow)
+            OGMESH = obj["MESH_x"]
+            OGMESH = OGMESH.replace("Physicians'","Physicians")
+            OGMESH = OGMESH.replace('"','$')
+            OGMESH = OGMESH.replace("$","'")
+            OGMESH = OGMESH.replace('",',"'")
+            OGMESH = OGMESH.replace(", '",";")
+            OGMESH = OGMESH.replace("'","")
+            OGMESH = OGMESH.replace("[","")
+            OGMESH = OGMESH.replace("]","")
+            OGMESH = OGMESH.replace('"',"")
+            OGMESH = OGMESH.split(";")
+            NewMESH = obj["MESH_y"]
+            NewMESH = NewMESH.replace("Physicians'","Physicians")
+            NewMESH = NewMESH.replace('"','$')
+            NewMESH = NewMESH.replace('$',"'")
+            NewMESH = NewMESH.replace(", '",";")
+            NewMESH = NewMESH.replace("'","")
+            NewMESH = NewMESH.replace('"[',"")
+            NewMESH = NewMESH.replace(']"',"")
+            NewMESH = NewMESH.replace("[","")
+            NewMESH = NewMESH.replace("]","")
+            NewMESH = NewMESH.replace('"',"")
+            NewMESH = NewMESH.split(";")
+            OGIndexing = obj["IndexingMethod_x"]
+            NewIndexing = obj["IndexingMethod_y"]
+            FirstDateRevised = obj["DateRevised_x"]
+            SecondDateRevised = obj["DateRevised_y"]
+            #might need to split on ', and possibly reformat
+            PMURI = "https://pubmed.ncbi.nlm.nih.gov/" + PMIDrow
+            #Might want to play around with sorting and unsorting when you have the actual data. Looking at reordering of headings might also be interesting
+            #NLM suggests Mesh are ordered in order of importance https://www.nlm.nih.gov/tsd/cataloging/trainingcourses/mesh/mod3_170.html, however, they do seem arranged alphabetically in Pubmed. Need to check XML files
+            OGMESH = sorted(OGMESH)
+            NewMESH = sorted(NewMESH)
+            if OGMESH != NewMESH:
+                OGIndexing = str(OGIndexing)
+                NewIndexing = str(NewIndexing)
+                FirstDateRevised = str(FirstDateRevised)
+                SecondDateRevised = str(SecondDateRevised)
+                OGDesc = "Original (" + OGIndexing + ") " + FirstDateRevised + ""
+                NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
+                htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
+                if ExplodeFilter =="on":
+                    for MESHFilterEx in MESHAdditional:
+                        if QualifierFilter == "allqualifiers":
+                            meshremovedcheck = '"diff_sub">' + MESHFilterEx
+                            meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                            meshaddedcheck = '"diff_add">' + MESHFilterEx
+                            meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                            meshunchangedcheck = '"nowrap">' + MESHFilterEx
+                            meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                            meshchangedcheck = '"diff_chg">' + MESHFilterEx
+                            meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                        else:
+                            meshremovedcheck = '"diff_sub">' + MESHFilterEx + '</span>'
+                            meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                            meshaddedcheck = '"diff_add">' + MESHFilterEx + '</span>'
+                            meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                            meshunchangedcheck = '"nowrap">' + MESHFilterEx + '</td>'
+                            meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                            meshchangedcheck = '"diff_chg">' + MESHFilterEx + '</span>'
+                            meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                        if meshremovedcheck in htmldiff:
+                            meshremoved +=1
+                        if meshaddedcheck in htmldiff:
+                            meshadded +=1
+                        if meshunchangedcheck in htmldiff:
+                            meshunchanged +=1
+                        if meshchangedcheck in htmldiff:
+                            meshchanged +=1
+                else:
                     if QualifierFilter == "allqualifiers":
-                        meshremovedcheck = '"diff_sub">' + MESHFilterEx
+                        meshremovedcheck = '"diff_sub">' + MESHFilter
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                        meshaddedcheck = '"diff_add">' + MESHFilterEx
+                        meshaddedcheck = '"diff_add">' + MESHFilter
                         meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                        meshunchangedcheck = '"nowrap">' + MESHFilterEx
+                        meshunchangedcheck = '"nowrap">' + MESHFilter
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
-                        meshchangedcheck = '"diff_chg">' + MESHFilterEx
+                        meshchangedcheck = '"diff_chg">' + MESHFilter
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     else:
-                        meshremovedcheck = '"diff_sub">' + MESHFilterEx + '</span>'
+                        meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                        meshaddedcheck = '"diff_add">' + MESHFilterEx + '</span>'
+                        meshaddedcheck = '"diff_add">' + MESHFilter + '</span>'
                         meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                        meshunchangedcheck = '"nowrap">' + MESHFilterEx + '</td>'
+                        meshunchangedcheck = '"nowrap">' + MESHFilter + '</td>'
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
-                        meshchangedcheck = '"diff_chg">' + MESHFilterEx + '</span>'
+                        meshchangedcheck = '"diff_chg">' + MESHFilter + '</span>'
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     if meshremovedcheck in htmldiff:
                         meshremoved +=1
@@ -204,55 +247,28 @@ def indexingchanges():
                         meshunchanged +=1
                     if meshchangedcheck in htmldiff:
                         meshchanged +=1
-            else:
-                if QualifierFilter == "allqualifiers":
-                    meshremovedcheck = '"diff_sub">' + MESHFilter
-                    meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                    meshaddedcheck = '"diff_add">' + MESHFilter
-                    meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                    meshunchangedcheck = '"nowrap">' + MESHFilter
-                    meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
-                    meshchangedcheck = '"diff_chg">' + MESHFilter
-                    meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
-                else:
-                    meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
-                    meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                    meshaddedcheck = '"diff_add">' + MESHFilter + '</span>'
-                    meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                    meshunchangedcheck = '"nowrap">' + MESHFilter + '</td>'
-                    meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
-                    meshchangedcheck = '"diff_chg">' + MESHFilter + '</span>'
-                    meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
-                if meshremovedcheck in htmldiff:
-                    meshremoved +=1
-                if meshaddedcheck in htmldiff:
-                    meshadded +=1
-                if meshunchangedcheck in htmldiff:
-                    meshunchanged +=1
-                if meshchangedcheck in htmldiff:
-                    meshchanged +=1
-            diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
-            added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
-            addedtotal.append(added)
-            removed = str(sum(1 for line in diffnumbers if line.startswith('- ')))
-            removedtotal.append(removed)
-            unchanged = str(sum(1 for line in diffnumbers if line.startswith('  ')))
-            unchangedtotal.append(unchanged)
-            htmldiff = "<div style='display:inline' id='MESHTable'><h3><a href='" + PMURI + "'>PMID " + PMIDrow + "</a></h3><div style='display:inline-flex'><div style='display:inline'>" + htmldiff + "</div>" + "<div style='display:inline; font-family:courier; margin-left:15px;'><table id='diffcalculations'><tr><td id='addedlabel'>Added:</td><td id='addedvalue'>" + added + "</td><tr><td id='removedlabel'>Removed:</td><td id='removedvalue'>" + removed + "</td></tr><tr><td id='unchangedlabel'>Unchanged:</td><td id='unchangedvalue'>" + unchanged + "</td></tr></table></div></div></div>"
-            HTMLTables.append(htmldiff)
-    if MESHFilter is None or MESHFilter == "":
-        meshunchanged = "N/A"
-        meshadded = "N/A"
-        meshremoved = "N/A"
-        meshchanged = "N/A"
+                diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
+                added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
+                addedtotal.append(added)
+                removed = str(sum(1 for line in diffnumbers if line.startswith('- ')))
+                removedtotal.append(removed)
+                unchanged = str(sum(1 for line in diffnumbers if line.startswith('  ')))
+                unchangedtotal.append(unchanged)
+                htmldiff = "<div style='display:inline' id='MESHTable'><h3><a href='" + PMURI + "'>PMID " + PMIDrow + "</a></h3><div style='display:inline-flex'><div style='display:inline'>" + htmldiff + "</div>" + "<div style='display:inline; font-family:courier; margin-left:15px;'><table id='diffcalculations'><tr><td id='addedlabel'>Added:</td><td id='addedvalue'>" + added + "</td><tr><td id='removedlabel'>Removed:</td><td id='removedvalue'>" + removed + "</td></tr><tr><td id='unchangedlabel'>Unchanged:</td><td id='unchangedvalue'>" + unchanged + "</td></tr></table></div></div></div>"
+                HTMLTables.append(htmldiff)
+        if MESHFilter is None or MESHFilter == "":
+            meshunchanged = "N/A"
+            meshadded = "N/A"
+            meshremoved = "N/A"
+            meshchanged = "N/A"
 
-    DiffHTML = "".join(HTMLTables) 
-    addedtotal = list(map(int, addedtotal))
-    removedtotal = list(map(int, removedtotal))
-    unchangedtotal = list(map(int, unchangedtotal))
-    addedtotal = sum(addedtotal)
-    removedtotal = sum(removedtotal)
-    unchangedtotal = sum(unchangedtotal)
+        DiffHTML = "".join(HTMLTables) 
+        addedtotal = list(map(int, addedtotal))
+        removedtotal = list(map(int, removedtotal))
+        unchangedtotal = list(map(int, unchangedtotal))
+        addedtotal = sum(addedtotal)
+        removedtotal = sum(removedtotal)
+        unchangedtotal = sum(unchangedtotal)
     
     return render_template("form.html", page=page, totalrecords = totalrecords, MESHOptions = MESHOptions, MESHFilter = MESHFilter, DiffHTML = DiffHTML, PMIDFilter = PMIDFilter, IndexingFilter = IndexingFilter, addedtotal = addedtotal, removedtotal = removedtotal, unchangedtotal = unchangedtotal, meshremoved = meshremoved, meshadded = meshadded, meshunchanged = meshunchanged, QualifierFilter = QualifierFilter, QualifierOptions = QualifierOptions, meshchanged = meshchanged, ExplodeFilter = ExplodeFilter)
 
