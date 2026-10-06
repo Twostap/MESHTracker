@@ -143,7 +143,9 @@ def indexingchanges():
             PMIDrow = obj["PMID"]
             PMIDrow = str(PMIDrow)
             OGMESH = obj["MESH_x"]
+            print(OGMESH)
             NewMESH = obj["MESH_y"]
+            print(NewMESH)
             OGIndexing = obj["IndexingMethod_x"]
             NewIndexing = obj["IndexingMethod_y"]
             FirstDateRevised = obj["DateRevised_x"]
