@@ -47,13 +47,12 @@ def indexingchanges():
         meshchanged = ""
         totalrecords = ""
         NextPageLink = "display: none;"
-        print(NextPageLink)
     else:
         MESHFilter = request.args.get('MESH', default = "")
         PMIDFilter = request.args.get('PMID', default = "")
         IndexingFilter = request.args.get('Indexing', default = "")
-        QualifierFilter = request.args.get('Qualifier', default = "")
-        ExplodeFilter = request.args.get('Explode', default = "")     
+        QualifierFilter = request.args.get('Qualifier', default = "allqualifiers")
+        ExplodeFilter = request.args.get('Explode', default = "off")     
         changeddf = pd.read_csv('meshchanges.csv.gz', dtype=str, usecols=['PMID','IndexingMethod_x','DateRevised_x','MESH_x','IndexingMethod_y','DateRevised_y','MESH_y'])
         if MESHFilter is not None and MESHFilter !="":
             if ExplodeFilter =="on":
