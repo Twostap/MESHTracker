@@ -143,6 +143,7 @@ def indexingchanges():
         meshunchanged = 0
         meshchanged = 0
         totalrecords = len(changeddict)
+        NextPageLink = ""
         if page == 1:
             changeddict = changeddict[:5000]
             if totalrecords < 5000:
