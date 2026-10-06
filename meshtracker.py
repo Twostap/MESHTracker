@@ -139,33 +139,11 @@ def indexingchanges():
         if totalrecords < changeddictend:
             NextPageLink = "display: none;"
         changeddict = changeddict[changeddictstart:changeddictend]
-        print(len(changeddict))
         for obj in changeddict:
             PMIDrow = obj["PMID"]
             PMIDrow = str(PMIDrow)
             OGMESH = obj["MESH_x"]
-            OGMESH = OGMESH.replace("Physicians'","Physicians")
-            OGMESH = OGMESH.replace('"','$')
-            OGMESH = OGMESH.replace("$","'")
-            OGMESH = OGMESH.replace('",',"'")
-            OGMESH = OGMESH.replace(", '",";")
-            OGMESH = OGMESH.replace("'","")
-            OGMESH = OGMESH.replace("[","")
-            OGMESH = OGMESH.replace("]","")
-            OGMESH = OGMESH.replace('"',"")
-            OGMESH = OGMESH.split(";")
             NewMESH = obj["MESH_y"]
-            NewMESH = NewMESH.replace("Physicians'","Physicians")
-            NewMESH = NewMESH.replace('"','$')
-            NewMESH = NewMESH.replace('$',"'")
-            NewMESH = NewMESH.replace(", '",";")
-            NewMESH = NewMESH.replace("'","")
-            NewMESH = NewMESH.replace('"[',"")
-            NewMESH = NewMESH.replace(']"',"")
-            NewMESH = NewMESH.replace("[","")
-            NewMESH = NewMESH.replace("]","")
-            NewMESH = NewMESH.replace('"',"")
-            NewMESH = NewMESH.split(";")
             OGIndexing = obj["IndexingMethod_x"]
             NewIndexing = obj["IndexingMethod_y"]
             FirstDateRevised = obj["DateRevised_x"]
@@ -240,7 +218,6 @@ def indexingchanges():
                     if meshchangedcheck in htmldiff:
                         meshchanged +=1
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
-                print(diffnumbers)
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
                 addedtotal.append(added)
                 removed = str(sum(1 for line in diffnumbers if line.startswith('- ')))
