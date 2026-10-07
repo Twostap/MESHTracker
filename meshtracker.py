@@ -194,7 +194,7 @@ def indexingchanges():
                             meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
                             meshchangedcheck = '"diff_chg">' + MESHFilterEx
                             meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
-                        else:
+                        elif QualifierFilter == "noqualifiers" or QualifierFilter == "" or QualifierFilter is None:
                             meshremovedcheck = '"diff_sub">' + MESHFilterEx + '</span>'
                             meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
                             meshaddedcheck = '"diff_add">' + MESHFilterEx + '</span>'
@@ -202,6 +202,16 @@ def indexingchanges():
                             meshunchangedcheck = '"nowrap">' + MESHFilterEx + '</td>'
                             meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
                             meshchangedcheck = '"diff_chg">' + MESHFilterEx + '</span>'
+                            meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                        else:
+                            meshremovedcheck = '"diff_sub">' + MESHFilterEx + '--' + QualifierFilter + '</span>'
+                            meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                            print(meshremovedcheck)
+                            meshaddedcheck = '"diff_add">' + MESHFilterEx + '--' + QualifierFilter + '</span>'
+                            meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                            meshunchangedcheck = '"nowrap">' + MESHFilterEx + '--' + QualifierFilter + '</td>'
+                            meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                            meshchangedcheck = '"diff_chg">' + MESHFilterEx + '--' + QualifierFilter + '</span>'
                             meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                         if meshremovedcheck in htmldiff:
                             meshremoved +=1
@@ -221,7 +231,7 @@ def indexingchanges():
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
                         meshchangedcheck = '"diff_chg">' + MESHFilter
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
-                    else:
+                    elif QualifierFilter == "noqualifiers" or QualifierFilter == "" or QualifierFilter is None:
                         meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
                         meshaddedcheck = '"diff_add">' + MESHFilter + '</span>'
@@ -229,6 +239,16 @@ def indexingchanges():
                         meshunchangedcheck = '"nowrap">' + MESHFilter + '</td>'
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
                         meshchangedcheck = '"diff_chg">' + MESHFilter + '</span>'
+                        meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                    else:
+                        meshremovedcheck = '"diff_sub">' + MESHFilter + '--' + QualifierFilter + '</span>'
+                        meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                        print(meshremovedcheck)
+                        meshaddedcheck = '"diff_add">' + MESHFilter + '--' + QualifierFilter + '</span>'
+                        meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                        meshunchangedcheck = '"nowrap">' + MESHFilter + '--' + QualifierFilter + '</td>'
+                        meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                        meshchangedcheck = '"diff_chg">' + MESHFilter + '--' + QualifierFilter + '</span>'
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     if meshremovedcheck in htmldiff:
                         meshremoved +=1
