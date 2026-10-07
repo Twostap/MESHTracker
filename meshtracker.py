@@ -184,6 +184,8 @@ def indexingchanges():
                 NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
                 if ExplodeFilter =="on":
+                    print(MESHAdditional)
+                    print(QualifierFilter)
                     for MESHFilterEx in MESHAdditional:
                         if QualifierFilter == "allqualifiers":
                             meshremovedcheck = '"diff_sub">' + MESHFilterEx
