@@ -209,12 +209,16 @@ def indexingchanges():
                             meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                         else:
                             meshremovedcheck = '"diff_sub">' + MESHFilterEx + '--' + QualifierFilter + '</span>'
+                            meshremovedcheck = meshremovedcheck.replace(" & ", "&nbsp;&&nbsp;")
                             meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
                             meshaddedcheck = '"diff_add">' + MESHFilterEx + '--' + QualifierFilter + '</span>'
+                            meshaddedcheck = meshaddedcheck.replace(" & ", "&nbsp;&&nbsp;")
                             meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
                             meshunchangedcheck = '"nowrap">' + MESHFilterEx + '--' + QualifierFilter + '</td>'
+                            meshunchangedcheck = meshunchangedcheck.replace(" & ", "&nbsp;&&nbsp;")
                             meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
                             meshchangedcheck = '"diff_chg">' + MESHFilterEx + '--' + QualifierFilter + '</span>'
+                            meshchangedcheck = meshchangedcheck.replace(" & ", "&nbsp;&&nbsp;")
                             meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                         if meshremovedcheck in htmldiff:
                             meshremoved +=1
@@ -236,12 +240,16 @@ def indexingchanges():
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     elif QualifierFilter == "justqualifier":
                         meshremovedcheck = MESHFilter + '</span>'
+                        meshremovedcheck = meshremovedcheck.replace(" & ", "&nbsp;&&nbsp;")
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
                         meshaddedcheck = MESHFilter + '</span>'
+                        meshaddedcheck = meshaddedcheck.replace(" & ", "&nbsp;&&nbsp;")
                         meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
                         meshunchangedcheck = MESHFilter + '</td>'
+                        meshunchangedcheck = meshunchangedcheck.replace(" & ", "&nbsp;&&nbsp;")
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
                         meshchangedcheck = MESHFilter + '</span>'
+                        meshchangedcheck = meshchangedcheck.replace(" & ", "&nbsp;&&nbsp;")
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     elif QualifierFilter == "noqualifiers" or QualifierFilter == "" or QualifierFilter is None:
                         meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
@@ -254,12 +262,16 @@ def indexingchanges():
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     else:
                         meshremovedcheck = '"diff_sub">' + MESHFilter + '--' + QualifierFilter + '</span>'
+                        meshremovedcheck = meshremovedcheck.replace(" & ", "&nbsp;&&nbsp;")
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
                         meshaddedcheck = '"diff_add">' + MESHFilter + '--' + QualifierFilter + '</span>'
+                        meshaddedcheck = meshaddedcheck.replace(" & ", "&nbsp;&&nbsp;")
                         meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
                         meshunchangedcheck = '"nowrap">' + MESHFilter + '--' + QualifierFilter + '</td>'
+                        meshunchangedcheck = meshunchangedcheck.replace(" & ", "&nbsp;&&nbsp;")
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
                         meshchangedcheck = '"diff_chg">' + MESHFilter + '--' + QualifierFilter + '</span>'
+                        meshchangedcheck = meshchangedcheck.replace(" & ", "&nbsp;&&nbsp;")
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     if meshremovedcheck in htmldiff:
                         meshremoved +=1
