@@ -262,6 +262,7 @@ def indexingchanges():
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     else:
                         meshremovedcheck = '"diff_sub">' + MESHFilter + '--' + QualifierFilter + '</span>'
+                        print(meshremovedcheck)
                         meshremovedcheck = meshremovedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
                         meshaddedcheck = '"diff_add">' + MESHFilter + '--' + QualifierFilter + '</span>'
@@ -273,6 +274,7 @@ def indexingchanges():
                         meshchangedcheck = '"diff_chg">' + MESHFilter + '--' + QualifierFilter + '</span>'
                         meshchangedcheck = meshchangedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                    print(htmldiff)
                     if meshremovedcheck in htmldiff:
                         meshremoved +=1
                     if meshaddedcheck in htmldiff:
