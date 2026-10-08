@@ -235,13 +235,13 @@ def indexingchanges():
                         meshchangedcheck = '"diff_chg">' + MESHFilter
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     elif QualifierFilter == "justqualifier":
-                        meshremovedcheck = MESHFilterEx + '</span>'
+                        meshremovedcheck = MESHFilter + '</span>'
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                        meshaddedcheck = MESHFilterEx + '</span>'
+                        meshaddedcheck = MESHFilter + '</span>'
                         meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                        meshunchangedcheck = MESHFilterEx + '</td>'
+                        meshunchangedcheck = MESHFilter + '</td>'
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
-                        meshchangedcheck = MESHFilterEx + '</span>'
+                        meshchangedcheck = MESHFilter + '</span>'
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     elif QualifierFilter == "noqualifiers" or QualifierFilter == "" or QualifierFilter is None:
                         meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
