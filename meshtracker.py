@@ -103,7 +103,7 @@ def indexingchanges():
                     filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
         elif QualifierFilter is not None and QualifierFilter !="" and QualifierFilter !="allqualifiers" and QualifierFilter !="noqualifiers":
             MESHFilter = QualifierFilter
-            QualifierFilter = "allqualifiers"
+            QualifierFilter = "justqualifier"
             filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
         else:
             filtereddf = changeddf        
@@ -233,6 +233,15 @@ def indexingchanges():
                         meshunchangedcheck = '"nowrap">' + MESHFilter
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
                         meshchangedcheck = '"diff_chg">' + MESHFilter
+                        meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                    elif QualifierFilter == "justqualifier":
+                        meshremovedcheck = MESHFilterEx + '</span>'
+                        meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                        meshaddedcheck = MESHFilterEx + '</span>'
+                        meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
+                        meshunchangedcheck = MESHFilterEx + '</td>'
+                        meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
+                        meshchangedcheck = MESHFilterEx + '</span>'
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     elif QualifierFilter == "noqualifiers" or QualifierFilter == "" or QualifierFilter is None:
                         meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
