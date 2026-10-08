@@ -243,6 +243,7 @@ def indexingchanges():
                         meshremovedcheck = MESHFilter + '</span>'
                         meshremovedcheck = meshremovedcheck.replace(" & ", "&nbsp;&&nbsp;")
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                        print(meshremovedcheck)
                         meshaddedcheck = MESHFilter + '</span>'
                         meshaddedcheck = meshaddedcheck.replace(" & ", "&nbsp;&&nbsp;")
                         meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
