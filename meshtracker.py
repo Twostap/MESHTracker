@@ -101,7 +101,7 @@ def indexingchanges():
                 else:
                     MESHFilterap = MESHFilterap + "--" + QualifierFilter
                     filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilterap, case=False) or MESH_y.str.contains(@MESHFilterap, case=False)")
-        elif QualifierFilter is not None and Qualifier !="" and QualifierFilter !="allqualifiers" and QualifierFilter !="noqualifiers":
+        elif QualifierFilter is not None and QualifierFilter !="" and QualifierFilter !="allqualifiers" and QualifierFilter !="noqualifiers":
             MESHFilter = QualifierFilter
             QualifierFilter = "allqualifiers"
             filtereddf = changeddf.query("MESH_x.str.contains(@MESHFilter, case=False) or MESH_y.str.contains(@MESHFilter, case=False)")
