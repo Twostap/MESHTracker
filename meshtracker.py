@@ -290,6 +290,7 @@ def indexingchanges():
                 HTMLTables.append(htmldiff)
                 if QualifierFilter == "justqualifier":
                     QualifierFilter = MESHFilter
+                    MESHFilter = ""
         if MESHFilter is None or MESHFilter == "":
             meshunchanged = "N/A"
             meshadded = "N/A"
