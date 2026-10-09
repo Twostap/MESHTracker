@@ -3,6 +3,7 @@ import pandas as pd
 import difflib
 from pathlib import Path
 import numpy as np
+import re
 
 app = Flask(__name__)  
 
@@ -237,16 +238,16 @@ def indexingchanges():
                         meshchangedcheck = '"diff_chg">' + MESHFilter
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     elif QualifierFilter == "justqualifier":
-                        meshremovedcheck = MESHFilter + '</span>'
+                        meshremovedcheck = re.escape('"diff_sub">') + ".*" + re.escape(MESHFilter)
                         meshremovedcheck = meshremovedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                        meshaddedcheck = MESHFilter + '</span>'
+                        meshaddedcheck = re.escape('"diff_add">') + ".*" + re.escape(MESHFilter)
                         meshaddedcheck = meshaddedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                        meshunchangedcheck = MESHFilter + '</td>'
+                        meshunchangedcheck = re.escape('"nowrap">') + ".*" + re.escape(MESHFilter)
                         meshunchangedcheck = meshunchangedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
-                        meshchangedcheck = MESHFilter + '</span>'
+                        meshchangedcheck = re.escape('"diff_chg">') + ".*" + re.escape(MESHFilter)
                         meshchangedcheck = meshchangedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     elif QualifierFilter == "noqualifiers" or QualifierFilter == "" or QualifierFilter is None:
