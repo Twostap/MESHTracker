@@ -185,7 +185,7 @@ def indexingchanges():
                 OGDesc = "Original (" + OGIndexing + ") " + FirstDateRevised + ""
                 NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
-                if ExplodeFilter =="on":
+                if ExplodeFilter =="on" and QualifierFilter !="justqualifier":
                     for MESHFilterEx in MESHAdditional:
                         if QualifierFilter == "allqualifiers":
                             meshremovedcheck = '"diff_sub">' + MESHFilterEx
