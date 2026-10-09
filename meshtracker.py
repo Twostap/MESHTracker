@@ -185,7 +185,6 @@ def indexingchanges():
                 OGDesc = "Original (" + OGIndexing + ") " + FirstDateRevised + ""
                 NewDesc = "Revised (" + NewIndexing + ") " + SecondDateRevised + ""
                 htmldiff = difflib.HtmlDiff().make_table(OGMESH, NewMESH, fromdesc=OGDesc, todesc=NewDesc)
-                print(QualifierFilter)
                 if ExplodeFilter =="on" and QualifierFilter != "justqualifier":
                     for MESHFilterEx in MESHAdditional:
                         if QualifierFilter == "allqualifiers":
@@ -238,8 +237,6 @@ def indexingchanges():
                         meshchangedcheck = '"diff_chg">' + MESHFilter
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     elif QualifierFilter == "justqualifier":
-                        print("I'm in the right spot")
-                        print(MESHFilter)
                         meshremovedcheck = MESHFilter + '</span>'
                         meshremovedcheck = meshremovedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
@@ -291,14 +288,14 @@ def indexingchanges():
                 unchangedtotal.append(unchanged)
                 htmldiff = "<div style='display:inline' id='MESHTable'><h3><a href='" + PMURI + "'>PMID " + PMIDrow + "</a></h3><div style='display:inline-flex'><div style='display:inline'>" + htmldiff + "</div>" + "<div style='display:inline; font-family:courier; margin-left:15px;'><table id='diffcalculations'><tr><td id='addedlabel'>Added:</td><td id='addedvalue'>" + added + "</td><tr><td id='removedlabel'>Removed:</td><td id='removedvalue'>" + removed + "</td></tr><tr><td id='unchangedlabel'>Unchanged:</td><td id='unchangedvalue'>" + unchanged + "</td></tr></table></div></div></div>"
                 HTMLTables.append(htmldiff)
-        if QualifierFilter == "justqualifier":
-            QualifierFilter = MESHFilter
-            MESHFilter = ""
         if MESHFilter is None or MESHFilter == "":
             meshunchanged = "N/A"
             meshadded = "N/A"
             meshremoved = "N/A"
             meshchanged = "N/A"
+        if QualifierFilter == "justqualifier":
+            QualifierFilter = MESHFilter
+            MESHFilter = ""
 
         DiffHTML = "".join(HTMLTables) 
         addedtotal = list(map(int, addedtotal))
