@@ -238,18 +238,18 @@ def indexingchanges():
                         meshchangedcheck = '"diff_chg">' + MESHFilter
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     elif QualifierFilter == "justqualifier":
-                        meshremovedcheck = re.escape('"diff_sub">') + ".*" + re.escape(MESHFilter)
-                        meshremovedcheck = meshremovedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
+                        meshremovedcheck = MESHFilter.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                        meshaddedcheck = re.escape('"diff_add">') + ".*" + re.escape(MESHFilter)
-                        meshaddedcheck = meshaddedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
-                        meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                        meshunchangedcheck = re.escape('"nowrap">') + ".*" + re.escape(MESHFilter)
-                        meshunchangedcheck = meshunchangedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
+                        meshremovedcheck = re.escape('"diff_sub">') + ".*" + re.escape(meshremovedcheck)
+                        meshaddedcheck = MESHFilter.replace(" & ", "&nbsp;&amp;&nbsp;")
+                        meshaddedhceck = meshaddedcheck.replace(" ", "&nbsp;")
+                        meshaddedcheck = re.escape('"diff_add">') + ".*" + re.escape(meshaddedcheck)
+                        meshunchangedcheck = MESHFilter.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
-                        meshchangedcheck = re.escape('"diff_chg">') + ".*" + re.escape(MESHFilter)
-                        meshchangedcheck = meshchangedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
+                        meshunchangedcheck = re.escape('"nowrap">') + ".*" + re.escape(meshunchangedcheck)
+                        meshchangedcheck = MESHFilter.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
+                        meshchangedcheck = re.escape('"diff_chg">') + ".*" + re.escape(meshchangedcheck)
                     elif QualifierFilter == "noqualifiers" or QualifierFilter == "" or QualifierFilter is None:
                         meshremovedcheck = '"diff_sub">' + MESHFilter + '</span>'
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
