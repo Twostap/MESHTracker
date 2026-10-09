@@ -238,6 +238,8 @@ def indexingchanges():
                         meshchangedcheck = '"diff_chg">' + MESHFilter
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
                     elif QualifierFilter == "justqualifier":
+                        print("I'm in the right spot")
+                        print(MESHFilter)
                         meshremovedcheck = MESHFilter + '</span>'
                         meshremovedcheck = meshremovedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
