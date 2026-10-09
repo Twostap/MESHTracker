@@ -305,7 +305,7 @@ def indexingchanges():
             meshremoved = "N/A"
             meshchanged = "N/A"
         if QualifierFilter == "justqualifier":
-            QualifierFilter = MESHFilter
+            QualifierFilter = MESHFilter.replace("--","")
             MESHFilter = ""
 
         DiffHTML = "".join(HTMLTables) 
