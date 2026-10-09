@@ -272,14 +272,24 @@ def indexingchanges():
                         meshchangedcheck = '"diff_chg">' + MESHFilter + '--' + QualifierFilter + '</span>'
                         meshchangedcheck = meshchangedcheck.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshchangedcheck = meshchangedcheck.replace(" ", "&nbsp;")
-                    if meshremovedcheck in htmldiff:
-                        meshremoved +=1
-                    if meshaddedcheck in htmldiff:
-                        meshadded +=1
-                    if meshunchangedcheck in htmldiff:
-                        meshunchanged +=1
-                    if meshchangedcheck in htmldiff:
-                        meshchanged +=1
+                    if QualifierFilter == "justqualifier":
+                        if re.search(meshremovedcheck, htmldiff):
+                            meshremoved +=1
+                        if re.search(meshaddedcheck, htmldiff):
+                            meshadded +=1
+                        if re.search(meshunchangedcheck,htmldiff):
+                            meshunchanged +=1
+                        if re.search(meshchangedcheck, htmldiff):
+                            meshchanged +=1               
+                    else:
+                        if meshremovedcheck in htmldiff:
+                            meshremoved +=1
+                        if meshaddedcheck in htmldiff:
+                            meshadded +=1
+                        if meshunchangedcheck in htmldiff:
+                            meshunchanged +=1
+                        if meshchangedcheck in htmldiff:
+                            meshchanged +=1
                 diffnumbers = list(difflib.ndiff(OGMESH, NewMESH))
                 added = str(sum(1 for line in diffnumbers if line.startswith('+ ')))
                 addedtotal.append(added)
