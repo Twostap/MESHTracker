@@ -276,9 +276,7 @@ def indexingchanges():
                         if re.search(meshremovedcheck, htmldiff):
                             meshremoved +=1
                         if re.search(meshaddedcheck, htmldiff):
-                            print("meshadding")
                             meshadded +=1
-                            print(meshadded)
                         if re.search(meshunchangedcheck,htmldiff):
                             meshunchanged +=1
                         if re.search(meshchangedcheck, htmldiff):
