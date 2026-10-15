@@ -240,9 +240,12 @@ def indexingchanges():
                     elif QualifierFilter == "justqualifier":
                         meshremovedcheck = MESHFilter.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
+                        print(meshremovedcheck)
                         meshremovedcheck = re.escape('"diff_sub">') + ".*" + re.escape(meshremovedcheck)
                         meshaddedcheck = MESHFilter.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshaddedhceck = meshaddedcheck.replace(" ", "&nbsp;")
+                        print(meshaddedcheck)
+                        print(htmldiff)
                         meshaddedcheck = re.escape('"diff_add">') + ".*" + re.escape(meshaddedcheck)
                         meshunchangedcheck = MESHFilter.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
@@ -276,7 +279,9 @@ def indexingchanges():
                         if re.search(meshremovedcheck, htmldiff):
                             meshremoved +=1
                         if re.search(meshaddedcheck, htmldiff):
+                            print("meshadding")
                             meshadded +=1
+                            print(meshadded)
                         if re.search(meshunchangedcheck,htmldiff):
                             meshunchanged +=1
                         if re.search(meshchangedcheck, htmldiff):
