@@ -240,11 +240,9 @@ def indexingchanges():
                     elif QualifierFilter == "justqualifier":
                         meshremovedcheck = MESHFilter.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshremovedcheck = meshremovedcheck.replace(" ", "&nbsp;")
-                        print(meshremovedcheck)
                         meshremovedcheck = re.escape('"diff_sub">') + ".*" + re.escape(meshremovedcheck)
                         meshaddedcheck = MESHFilter.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshaddedcheck = meshaddedcheck.replace(" ", "&nbsp;")
-                        print(meshaddedcheck)
                         meshaddedcheck = re.escape('"diff_add">') + ".*" + re.escape(meshaddedcheck)
                         meshunchangedcheck = MESHFilter.replace(" & ", "&nbsp;&amp;&nbsp;")
                         meshunchangedcheck = meshunchangedcheck.replace(" ", "&nbsp;")
